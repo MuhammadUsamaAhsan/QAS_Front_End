@@ -31,7 +31,7 @@ export const ip='localhost';
     AppComponent,
     GlobalsComponent,
     LoginComponent
-  
+
 
   ],
   imports: [
@@ -44,7 +44,6 @@ export const ip='localhost';
     FormsModule,
     DataTablesModule,
     AngularFontAwesomeModule,
-    Ng5SliderModule,
     NgxLoadingModule.forRoot({animationType: ngxLoadingAnimationTypes.circleSwish,
       fullScreenBackdrop: true}),
     NotifierModule.withConfig({

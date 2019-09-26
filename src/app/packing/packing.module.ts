@@ -25,7 +25,8 @@ import { ViewPackingComponent } from './view-packing/view-packing.component';
     HttpClientModule,
     ReactiveFormsModule,
     NgxLoadingModule.forRoot({}),
-    Ng2FlatpickrModule
+    Ng2FlatpickrModule,
+
   ],
   declarations: [AddPackingComponent, EditPackingComponent, ViewPackingComponent]
 })

@@ -1,3 +1,6 @@
+import { GenericHeaderService } from './../../header/generic-header.service';
+import { SomeSharedService } from './../../globals/globals.component';
+import { AuthenticationService } from '../../Services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -5,15 +8,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 import { DatePipe } from '@angular/common';
 import { FlatpickrOptions } from 'ng2-flatpickr';
-import { SomeSharedService } from '../../globals/globals.component';
-import { AuthenticationService } from '../../Services/authentication.service';
+import { HttpModule } from '@angular/http';
+
 import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
   selector: 'app-edit-packing',
   templateUrl: './edit-packing.component.html',
   styleUrls: ['./edit-packing.component.scss'],
-  providers: [SomeSharedService]
+  providers: [SomeSharedService,GenericHeaderService]
 })
 export class EditPackingComponent implements OnInit {
   private readonly notifier: NotifierService;
@@ -33,10 +36,11 @@ export class EditPackingComponent implements OnInit {
   user_name:any='';
   id:any;
 
+
   type:any='';
   unit_id:any;
 
-  constructor(private http: HttpClient,private route: ActivatedRoute, private authenticationService: AuthenticationService, private router: Router, private formBuilder: FormBuilder, private datePipe: DatePipe, notifierService: NotifierService, private someSharedService: SomeSharedService) {
+  constructor(private http: HttpClient,private route: ActivatedRoute, private authenticationService: AuthenticationService, private router: Router, private formBuilder: FormBuilder, private datePipe: DatePipe, notifierService: NotifierService, private someSharedService: SomeSharedService,private header:GenericHeaderService) {
     this.notifier = notifierService;
   }
 
@@ -47,14 +51,14 @@ export class EditPackingComponent implements OnInit {
 
     this.id = this.route.snapshot.params["id"];
     this.generic_header_id = this.route.snapshot.params["generic_header_id"];
+    this.initiatecalls();
 
-   await this.FetchPackingDetailById();
     this.FetchHeaderDetailById();
 
     console.log("id",this.id);
     console.log("header_id",this.generic_header_id);
+    await this.FetchPackingDetailById();
 
-    this.initiatecalls();
 
   }
 
@@ -68,9 +72,9 @@ export class EditPackingComponent implements OnInit {
   };
 
   async initiatecalls(){
-
+    this.lines=await this.header.GetLines();
     await this.GetOrder();
-    await this.GetLines();
+   // await this.GetLines();
     await this.GetShifts();
     await this.GetUnits();
 
@@ -263,89 +267,102 @@ export class EditPackingComponent implements OnInit {
     }
   }
 
-  async GetLines() {
+  // async GetLines() {
 
-    const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllLines';
-    let params=null;
+  //   const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllLines';
+  //   let params=null;
 
-    let response=await this.authenticationService.send_call(url,params);
+  //   let response=await this.authenticationService.send_call(url,params);
 
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.lines=a['line_list'];
-         // console.log("Role:",this.Roles);
+  //   if(response['data']){
+  //     if(response['data']['_body']){
+  //       if(response['data']['_body'].length>0)
+  //       {
+  //         const a=JSON.parse(response['data']['_body']);
+  //         this.lines=a['line_list'];
+  //        // console.log("Role:",this.Roles);
 
-        }
-        else{
+  //       }
+  //       else{
 
-        }
-      }   else{
+  //       }
+  //     }   else{
 
 
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
+  //       //console.log("_body empty");
+  //      // this.notifier.notify('error','No Data Found!!!');
+  //     }
 
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
+  //   }
+  //   else
+  //   {
+  //    // console.log("error in FecthAllDepartments:","No Data Found!!!");
+  //     //this.notifier.notify('error','No Data Found!!!');
+  //   }
+  // }
   async CheckSaveGenericHeader(){
-
-    // this.loading=true;
-
-
-       const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchHeaderId';
-       let params={
-        unit_id:this.header_details['unit_id'],
-        shift:this.header_details['shift'],
-        line:this.header_details['line'],
-        user_id:this.user_id,
-        type:this.header_details['type'],
-        //c_by:this.user_id,
-        date:this.datePipe.transform(this.date,"yyyy-MM-dd")
-       };
-
-       let response=await this.authenticationService.send_call(url,params);
-
-       if(response['data']){
-         if(response['data']['_body']){
-           if(response['data']['_body'].length>0)
-           {
-
-             const a=JSON.parse(response['data']['_body']);
-             this.generic_header_id=a['header_id'];
-            if(a['header_id']!=0){
-              this.notifier.notify( 'success', 'Header saved successfully' );
+    this.generic_header_id=await this.header.CheckSaveGenericHeader(this.header_details['unit_id'],this.header_details['shift'],this.header_details['line'],this.user_id,
+    this.header_details['type'],this.datePipe.transform(this.date,"yyyy-MM-dd")
+    )
+if(this.generic_header_id){
+  this.notifier.notify( 'success', 'Header saved successfully' );
               this.loading=false;
-             console.log("header_id", this.generic_header_id)
-            }
-            // console.log("Role:",this.Roles);
 
-           }
-           else{
-             //console.log("error: 0 records");
-            // this.notifier.notify('error','No Data Found!!!');
-           }
-         }   else{
-           //console.log("_body empty");
-          // this.notifier.notify('error','No Data Found!!!');
-         }
+}
+else{
+  this.notifier.notify( 'warning', 'Header Not saved ' );
+}
 
-       }
-       else
-       {
-        // console.log("error in FecthAllDepartments:","No Data Found!!!");
-         //this.notifier.notify('error','No Data Found!!!');
-       }
-     }
+  }
+  // async CheckSaveGenericHeader(){
+
+  //   this.loading=true;
+
+
+  //      const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchHeaderId';
+  //      let params={
+  //       unit_id:this.header_details['unit_id'],
+  //       shift:this.header_details['shift'],
+  //       line:this.header_details['line'],
+  //       user_id:this.user_id,
+  //       type:this.header_details['type'],
+  //       c_by:this.user_id,
+  //       date:this.datePipe.transform(this.date,"yyyy-MM-dd")
+  //      };
+
+  //      let response=await this.authenticationService.send_call(url,params);
+
+  //      if(response['data']){
+  //        if(response['data']['_body']){
+  //          if(response['data']['_body'].length>0)
+  //          {
+
+  //            const a=JSON.parse(response['data']['_body']);
+  //            this.generic_header_id=a['header_id'];
+  //           if(a['header_id']!=0){
+  //             this.notifier.notify( 'success', 'Header saved successfully' );
+  //             this.loading=false;
+  //            console.log("header_id", this.generic_header_id)
+  //           }
+  //           console.log("Role:",this.Roles);
+
+  //          }
+  //          else{
+  //            console.log("error: 0 records");
+  //           this.notifier.notify('error','No Data Found!!!');
+  //          }
+  //        }   else{
+  //          console.log("_body empty");
+  //         this.notifier.notify('error','No Data Found!!!');
+  //        }
+
+  //      }
+  //      else
+  //      {
+  //       console.log("error in FecthAllDepartments:","No Data Found!!!");
+  //        this.notifier.notify('error','No Data Found!!!');
+  //      }
+  //    }
 
      async UpdatePacking(){
       this.loading=true;

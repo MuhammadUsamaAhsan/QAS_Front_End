@@ -18,7 +18,7 @@ export class ViewPackingComponent implements OnInit {
   showTable:boolean=false;
 
   dtOptions:any={};
-  constructor(private http: HttpClient, private authenticationService: AuthenticationService,private router:Router, private someSharedService: SomeSharedService) { }
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService,private router:Router, public someSharedService: SomeSharedService) { }
 
   ngOnInit() {
     this.dtOptions = {
