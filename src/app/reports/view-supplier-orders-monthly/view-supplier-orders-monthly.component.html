@@ -1,0 +1,107 @@
+
+
+    <h2 class="heading text-center text-info"  ><b>Supplier Orders Monthly Summary</b></h2>
+    <div class="card form-group"   id="u1">
+      <div class="card-body bg-light" >
+          <div class="row  " style="float:center;padding-left: 5% " >
+
+            <div class="col-sm-5">
+              <div class="row-6">
+                <label class="" for="Fabric"   style="float:left; margin-top: 6px"><b>Supplier</b></label>
+
+
+              <div class="row">
+                <div class="col-sm-12">
+                 <select *ngIf="suppliers"  name="supplier"  [(ngModel)]="supplier"   required
+                     class="form-control input-sm" id="supplier" >
+                    <option [ngValue]="null" disabled [selected]="true">Select supplier...</option>
+                    <option *ngFor="let s of suppliers" value={{s.name}}>{{s.name}}</option>
+                 </select>
+                 <!-- <div *ngIf="submitted && f.supplier_id.errors" class="invalid-feedback">
+                    <div *ngIf="f.supplier_id.errors.required">supplier_id is required</div>
+                  </div> -->
+                  <!-- formControlName="supplier_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_id.errors }" -->
+                 </div>
+            </div>
+            </div>
+        </div>
+
+          <div class="col-6  " style="float:center; padding-right:50px" >
+
+            <div class="col-sm-12">
+              <div class="row-6">
+                <label class="" for="Fabric" style="float:left;padding-left: 10%;margin-top:6px " ><b>Year</b></label>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                 <select *ngIf="suppliers"  name="year" [(ngModel)]="year"  required
+                     class="form-control input-lg" id="supplier" >
+                    <option [ngValue]="null" disabled [selected]="true">Select Year...</option>
+                    <option  value="2019">2019</option>
+                    <option  value="2020">2020</option>
+                    <option  value="2021">2021</option>
+                    <option  value="2022">2022</option>
+
+                 </select>
+
+                 </div>
+            </div>
+
+          </div>
+            </div>
+
+     <div class="col-1  "  >
+         <button type="button" id="btn-report" (click)="ViewChart()"  class=" btn btn-info  pr-5" placeholder="view_print">View</button>
+      </div>
+
+
+      </div>
+    </div>
+
+    <div *ngIf="ShowError">
+      <strong> <p  style="color: rgba(226, 41, 41, 0.89);padding-top:5%;padding-left: 40%">No data found</p></strong>
+     </div>
+
+
+    <div class="row" *ngIf="!hidden" >
+
+    <div class="col-xl-12 px-5">
+        <!-- <h4 class="mt-4">Line Chart</h4> -->
+        <div class="card">
+          <div class="card-body">
+            <canvas id="line-chart" ></canvas>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-xl-12 px-5">
+          <!-- <h4 class="mt-4">Line Chart</h4> -->
+          <div class="card">
+            <div class="card-body">
+              <canvas id="bar-chart" ></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="my-container">
+      <ng-template #customLoadingTemplate>
+          <div class="custom-class">
+              <h4 style="color: gray">
+                  Loading...
+              </h4>
+              <!-- <button (click)="showAlert()">
+                  Click me!
+              </button> -->
+          </div>
+      </ng-template>
+    
+      <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+    </div>
+
+
+

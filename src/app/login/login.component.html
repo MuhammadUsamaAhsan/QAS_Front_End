@@ -1,0 +1,74 @@
+
+
+<div class="auth">
+
+
+  <div class="w-10 h-auto ">
+    <div class="auth-text" [ngClass]="toggleFormClass">
+
+
+      <!-- sign up text div -->
+       <div class="auth-login-text">
+        <h2>Don't have an account?</h2>
+
+        <button class="btn btn-outline-light  px-5" (click)="showSignUp()">Sign up</button>
+      </div>
+
+
+      <!-- log in text div -->
+       <div class="auth-signup-text">
+        <h2>Login</h2>
+
+         <button class="btn btn-outline-light  px-5" (click)="showLogin()">Login</button>
+      </div>
+    </div>
+    <!-- forms -->
+    <div class="card shadow auth-forms" [ngClass]="toggleFormClass">
+      <!-- login form -->
+      <div class="auth-login">
+        <div class="wrapper">
+          <h2 class="mb-4 text-primary">Login</h2>
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control"  [(ngModel)]="u_name"  [ngModelOptions]="{standalone: true}" placeholder="Enter User Name..." required autofocus />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control"  [(ngModel)]="pass" [ngModelOptions]="{standalone: true}" placeholder="Enter Password...." required />
+            </div>
+            <div class="form-group">
+              <button type="button" (click)="Login()" class="btn px-4 btn-primary">Log In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+
+      <!-- sign up form -->
+       <div class="auth-signup">
+        <div class="wrapper">
+          <h2 class="mb-4 text-primary">Sign Up</h2>
+          <form class="forms_form">
+            <div class="form-group">
+              <input type="text" placeholder="Full Name" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary px-4">Sign Up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+

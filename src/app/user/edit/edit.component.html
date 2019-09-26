@@ -1,0 +1,119 @@
+<a routerLink="/user/view" id="back" class="btn  btn-just-icon  btn-round btn-info pl-4 pr-4  ">Back</a>
+
+<div class="col-x1" id="user">
+  <h4 class="mt-4 mt-xl-0  text-info" id="h4-user">
+    <strong>Please Update User's Data</strong>
+  </h4>
+  <div class="card form-group" id="u1">
+    <div class="card-body bg-light">
+      <form *ngIf="temp_users">
+        <div class="form-group pl-5 pr-5" >
+          <label><b>User name</b></label>
+          <input type="text" class="form-control" name="user_name" [(ngModel)]="temp_users.user_name"
+            class="form-control rounded-border" aria-describedby="usernameHelp" placeholder="Enter user name..."
+            required />
+        </div>
+        <br>
+        <div class="form-group pl-5 pr-5">
+          <label><b>First name</b></label>
+          <input type="text" class="form-control rounded-border" name="first_name" [(ngModel)]="temp_users.first_name"
+            aria-describedby="firstnameHelp" placeholder="Enter first name..." required />
+        </div>
+        <br>
+        <div class="form-group pl-5 pr-5">
+          <label><b>Last name</b></label>
+          <input type="text" ngModel pattern="[a-zA-Z ]*" name="last_name" [(ngModel)]="temp_users.last_name"
+            class="form-control rounded-border" aria-describedby="lastnameHelp" placeholder="Enter last name..."
+            required />
+        </div>
+        <br>
+        <div class="form-group pl-5 pr-5 ">
+          <label><b>Address</b></label>
+          <input type="text" class="form-control rounded-border" name="address" [(ngModel)]="temp_users.address"
+            aria-describedby="addressHelp" placeholder="Enter adress..." required />
+        </div>
+        <br>
+        <!-- <div class="form-group pl-5 pr-5">
+          <label><b>Password</b></label>
+          <input type="password" class="form-control rounded-border" name="password" [(ngModel)]="temp_users.password"
+            placeholder="Password..." required />
+        </div>
+        <br /> -->
+
+        <div class="form-group pl-5 pr-5">
+          <label><b>Phone</b></label>
+          <input type="tel" prefix="+92  " mask="(000)  0000000" name="phone" [(ngModel)]="temp_users.phone"
+            [showMaskTyped]="true" class="form-control rounded-border" aria-describedby="phoneHelp"
+            placeholder="+92 (xxx) xxxxxxx" required />
+        </div>
+        <br >
+
+        <div class="form-group pl-5 pr-5">
+          <label><b>CNIC</b></label>
+          <input type="text" mask="00000-0000000-0" [showMaskTyped]="true" name="cnic" [(ngModel)]="temp_users.cnic"
+            class="form-control rounded-border" aria-describedby="cnicHelp" placeholder="xxxxx-xxxxxxx-x" required />
+        </div>
+        <br>
+        <div class="form-group pl-5 pr-5">
+          <label><b>Email</b></label>
+          <input type="email" mask="" [showMaskTyped]="true" name="email" [(ngModel)]="temp_users.email"
+            class="form-control rounded-border" mask="" aria-describedby="emailHelp" placeholder="Enter email..."
+            required />
+        </div>
+        <br >
+
+        <div class="col-sm pl-5 pr-5 rounded-border">
+          <h6 class="mt-4 mt-sm-0"><b> User Role</b></h6>
+        <select   [(ngModel)]="temp_users.user_role_id" name="user_role_id"  class="form-control input-md" >
+          <option [ngValue]="null" disabled [selected]="true">Select Role</option>
+          <option *ngFor="let h of UserRoles" value={{h.id}}>{{h.name}}</option>
+        </select>
+      </div>
+      <br>
+
+        <div class="col-sm pl-5 pr-5  rounded-border">
+          <h6 class="mt-4 mt-sm-0"><b> Joining Date</b></h6>
+          <ng2-flatpickr [config]="date" id="date" name="joining_date" [setDate]="binding_joining_date " [(ngModel)]="joining_date"
+            placeholder="select joining Date..."></ng2-flatpickr>
+        </div>
+        <br>
+         
+        <div class="col-sm pl-5 pr-5 rounded-border">
+          <h6 class="mt-4 mt-sm-0"><b> Left Date</b></h6>
+          <ng2-flatpickr [config]="date" name="left_date" [setDate]="binding_left_date "  [(ngModel)]="left_date"
+            placeholder="select Left Date..."></ng2-flatpickr>
+        </div>
+        <br>
+        
+        <div class="col-sm pl-5 pr-5 rounded-border">
+          <h6 class="mt-4 mt-sm-0"><b> Birth Date</b></h6>
+          <ng2-flatpickr [config]="date" name="birth_date" [setDate]="binding_birth_date "  [(ngModel)]="birth_date"
+            placeholder="select Birth Date..."></ng2-flatpickr>
+        </div>
+        <br>
+        
+        <br>
+        <button id="btn-user" (click)="updateUser()" class="btn btn btn-outline-primary btn-round btn btn-dark"
+          placeholder="Update">
+          UPDATE
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>
+

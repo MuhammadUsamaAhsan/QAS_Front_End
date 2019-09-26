@@ -1,0 +1,50 @@
+<h2 class="heading text-center text-info" ><b>Article Wise Fabric Report</b></h2>
+
+
+<div class="card " >
+  <div class="card-body " > <br>
+    <br>
+
+    <table datatable class="table table-striped table-bordered table-lg  row-border hover "  [dtOptions]="dtOptions"  *ngIf="showTable"  >
+        <thead>
+
+        <tr >
+            <th>Supplier</th>
+            <th>Fabric Code</th>
+            <th>Quantity</th>
+            <th>Order No</th>
+            <th>Points Score</th>
+            <th>Grade</th>
+            <th>Lot</th>
+            <th>Yard</th>
+            <th>Remarks</th>
+
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of reports" >
+            <td>{{item.supplier}}</td>
+            <td>{{item.fabric_code}}</td>
+             <td>{{item.quantity | number}}</td>
+             <td>{{item.order_no}}</td>
+             <td>{{item.points_score}}</td>
+             <td>{{item.grade}}</td>
+             <td>{{item.lot}}</td>
+             <td>{{item.yard}}</td>
+             <td>{{item.remarks}}</td>
+
+
+        </tr>
+
+
+
+
+
+        </tbody>
+      </table>
+
+  </div>
+</div>
+

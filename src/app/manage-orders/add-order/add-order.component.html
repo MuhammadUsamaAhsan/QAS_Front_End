@@ -1,0 +1,282 @@
+<div class="col-x1" id="supplier-order" >
+  <h4 class="mt-4  heading mt-xl-0 text-info"id="h4-s-o"  ><strong>Please Add  order's Data</strong></h4>
+  <div class="card"  id="s-o">
+    <div class="card-body bg-light" >
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+
+        <!-- Button trigger modal -->
+
+        <div class="row  pl-5">
+
+          <div class="col-sm-11">
+            <div class="row-5">
+              <label class="control-label" for="Fabric"  ><b>Fabric Code</b></label>
+            </div>
+            <div class="row" >
+              <div class="col-sm-11">
+               <!-- <select   *ngIf="fabrics" name="fabric_id"   class="form-control input-lg" [(ngModel)]="fabric_id"  formControlName="fabric_id"  [ngClass]="{ 'is-invalid': submitted && f.fabric_id.errors }" id="fabric" required >
+                  <option [ngValue]="null" disabled [selected]="true">Select Fabric code...</option>
+                  <option *ngFor="let f of fabrics" value={{f.id}}>{{f.fabric_code}}</option>
+               </select> -->
+               <ng-select  [items]="fabrics"  bindLabel="fabric_code" formControlName="fabric_id"  [ngClass]="{ 'is-invalid': submitted && f.fabric_id.errors }"
+               placeholder="Select article" bindValue="id"  [(ngModel)]="fabric_id" required   >
+               </ng-select>
+
+
+               <!-- <div *ngIf="submitted && f.fabric_id.errors" class="invalid-feedback">
+                  <div *ngIf="f.fabric_id.errors.required">Fabric_id is required</div>
+                </div> -->
+               </div>
+               <div class="col-sm-1">
+                  <button type="button" id="btn-order" class="btn btn-primary  btn-primary glyphicon glyphicon-plus"
+                    value="button" data-toggle="modal" data-target="#exampleModal">
+                    Add
+                  </button>
+                </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Fabric</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  pl-5 pr-5 " >
+                        <label ><b>Fabric Code</b></label>
+                        <input type="text" name="fabric_code1" class="form-control rounded-border" placeholder="please enter fabric code" for="fabrics" [value]="fabric_code1" (input)="fabric_code1 = $event.target.value" required>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  pl-5 pr-5 " >
+                          <label class="control-label" for="Fabric"  ><b>Supplier</b></label>
+
+                           <select *ngIf="suppliers"  name="supplier_id" [value]="supplier_id" (input)="supplier_id = $event.target.value"  required
+                               class="form-control input-lg" id="supplier" >
+                              <option [ngValue]="null" disabled [selected]="true">Select supplier...</option>
+                              <option *ngFor="let s of suppliers" value={{s.id}}>{{s.name}}</option>
+                           </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class=" btn btn-outline-warning" data-dismiss="modal" #closeAddExpenseModal>X</button>
+                  <button type="button" (click)="AddNewFabric()" class="btn btn-primary">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="row  pl-5">
+
+            <div class="col-sm-11">
+              <div class="row-5">
+                <label class="control-label" for="Order"  ><b>Order No</b></label>
+              </div>
+              <div class="row">
+                <div class="col-sm-11">
+                 <!-- <select *ngIf="orders_list" name="order_id" [(ngModel)]="order_id" formControlName="order_id"  [ngClass]="{ 'is-invalid': submitted && f.order_id.errors }" required
+                     class="form-control input-lg" id="order">
+                    <option [ngValue]="null" disabled [selected]="true">Select Order No...</option>
+                    <option *ngFor="let o of orders_list" value={{o.id}}>{{o.order_no}}</option>
+                 </select> -->
+
+                 <ng-select  [items]="orders_list"  bindLabel="order_no" formControlName="order_id"  [ngClass]="{ 'is-invalid': submitted && f.order_id.errors }"
+                 placeholder="Select Order" bindValue="id"  [(ngModel)]="order_id" required   >
+                 </ng-select>
+
+                 <!-- <div *ngIf="submitted && f.order_id.errors" class="invalid-feedback">
+                    <div *ngIf="f.order_id.errors.required">Order_id is required</div>
+                  </div> -->
+
+                 </div>
+                 <div class="col-sm-1">
+                    <button type="button" id="btn-order" class="btn btn-primary   btn-primary glyphicon glyphicon-plus"
+                      value="button" data-toggle="modal" data-target="#exampleModal1">
+                      Add
+                    </button>
+                  </div>
+
+            </div>
+
+          </div>
+
+          <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group  pl-5 pr-5 " >
+                          <label ><b>Order No</b></label>
+                          <input type="text" name="orders_no1" class="form-control rounded-border" placeholder="please enter orders no" for="neworder" [value]="orders_no1" (input)="orders_no1 = $event.target.value" required  >
+                           </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button"  class=" btn btn-outline-warning" id="closeModal" data-dismiss="modal"  #closeAddExpenseModal1 >X</button>
+                    <button type="button" (click)="AddNewOrder()" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+
+                <!-- Modal -->
+
+
+               <div class="row  pl-5">
+                <div class="col-sm-12">
+                  <div class="row-6">
+                    <label class="control-label" for="Fabric"  ><b>Supplier</b></label>
+                    </div>
+                      <div class="row">
+                      <div class="col-sm-11">
+                       <!-- <select *ngIf="suppliers"  name="supplier_id" [(ngModel)]="supplier_id"  formControlName="supplier_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_id.errors }"  required
+                           class="form-control input-lg" id="supplier" >
+                          <option [ngValue]="null" disabled [selected]="true">Select supplier...</option>
+                          <option *ngFor="let s of suppliers" value={{s.id}}>{{s.name}}</option>
+                       </select> -->
+                       <ng-select  [items]="suppliers"  bindLabel="name" formControlName="supplier_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_id.errors }"
+                              placeholder="Select Supplier" bindValue="id"  [(ngModel)]="supplier_id" required   >
+                        </ng-select>
+
+                       </div>
+                  </div>
+
+                </div>
+            </div>
+                  <br>
+                  <div class="form-group  pl-5 pr-5 " >
+                      <label ><b>Customer</b></label>
+                      <ng-select  [items]="customers"  bindLabel="customer" formControlName="customer_id"  [ngClass]="{ 'is-invalid': submitted && f.customer_id.errors }"
+                      placeholder="Select Customer" bindValue="id"  [(ngModel)]="customer_id" required   >
+                      </ng-select>
+                   </div>
+                  <br>
+
+
+
+             <div class="form-group  pl-5 pr-5 " >
+             <label ><b>Quantity</b></label>
+              <input type="text"  class="form-control rounded-border"  aria-describedby="quantityHelp" placeholder="Enter quantity .." [(ngModel)]="quantity" formControlName="quantity"  [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" required>
+              <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                <div *ngIf="f.quantity.errors.required">Quantity is required</div>
+              </div>
+              </div>
+               <br>
+               <div class="form-group  pl-5 pr-5 " >
+                <label ><b>Packing list #</b></label>
+                 <input type="text"  class="form-control rounded-border" aria-describedby="packing_list_idHelp" placeholder="Enter  packing_list_id .." [(ngModel)]="packing_list_id" formControlName="packing_list_id"  [ngClass]="{ 'is-invalid': submitted && f.packing_list_id.errors }" required>
+                 <div *ngIf="submitted && f.packing_list_id.errors" class="invalid-feedback">
+                   <div *ngIf="f.packing_list_id.errors.required">packing_list_id is required</div>
+                 </div>
+                 </div>
+                  <br>
+
+
+
+                      <div class="form-group  pl-5 pr-5 " >
+                        <label ><b>Cuttable Width Standard </b></label>
+                         <input type="text"  class="form-control rounded-border" aria-describedby="cuttable_width_standardHelp" placeholder="Enter  cuttable_width_standard .." [(ngModel)]="cuttable_width_standard" formControlName="cuttable_width_standard"  [ngClass]="{ 'is-invalid': submitted && f.cuttable_width_standard.errors }" required>
+                         <div *ngIf="submitted && f.cuttable_width_standard.errors" class="invalid-feedback">
+                           <div *ngIf="f.cuttable_width_standard.errors.required">cuttable_width_standard is required</div>
+                         </div>
+                         </div>
+                          <br>
+
+
+
+              <!-- quantity drop down -->
+                  <!-- <div class="form-group  pl-5 pr-5 " >
+                      <label ><b>Quantity in meter/yard</b></label> -->
+                  <!-- <div class="row">
+                      <div class="col-sm-12">
+                       <select   name="quantity_in_meter" [(ngModel)]="quantity_in_meter"  formControlName="quantity_in_meter"  [ngClass]="{ 'is-invalid': submitted && f.quantity_in_meter.errors }"  required
+                           class="form-control input-lg" id="quantity_in_meter" >
+                          <option >select quantity in meter/yard...</option>
+                          <option value="1">Meter</option>
+                          <option value="0">yard</option>
+                       </select>
+
+                       </div>
+
+                  </div> -->
+                <!-- </div>
+                <br> -->
+
+             <div class="form-group  pl-5 pr-5" >
+              <label ><b>Average Shipment Points</b></label>
+              <input type="text"  class="form-control rounded-border" aria-describedby="avgHelp" placeholder="Enter Average Points..." [(ngModel)]="average_points" formControlName="average_points"  [ngClass]="{ 'is-invalid': submitted && f.average_points.errors }" required>
+              <div *ngIf="submitted && f.average_points.errors" class="invalid-feedback">
+                <div *ngIf="f.average_points.errors.required">Please Enter Average_points </div>
+              </div>
+             </div>
+              <br>
+
+              <!-- <div class="form-group  pl-5 pr-5" >
+              <label ><b>Avearge Miss 4 points</b></label>
+              <input type="text"  class="form-control rounded-border" aria-describedby="avg4Help" placeholder="Enter Average Miss 4 Points..." [(ngModel)]="average_miss_4_points" formControlName="average_miss_4_points"  [ngClass]="{ 'is-invalid': submitted && f.average_miss_4_points.errors }" required>
+              <div *ngIf="submitted && f.average_miss_4_points.errors" class="invalid-feedback">
+                <div *ngIf="f.average_miss_4_points.errors.required">Please enter Average_miss_4_points  </div>
+              </div>
+               </div>
+             <br> -->
+             <div class="form-group  pl-5 pr-5" >
+                <label ><b>A_Grade Quantity</b></label>
+                <input type="text" mask="9999999" class="form-control rounded-border" aria-describedby="a_grade_qtyHelp" placeholder="Enter quantity of A_grade fabric ..." [(ngModel)]="a_grade_qty" formControlName="a_grade_qty"  [ngClass]="{ 'is-invalid': submitted && f.a_grade_qty.errors }" required>
+                <div *ngIf="submitted && f.a_grade_qty.errors" class="invalid-feedback">
+                  <div *ngIf="f.a_grade_qty.errors.required">Please Enter A_grade_quantity </div>
+                </div>
+              </div>
+              <br>
+
+              <div class="form-group  pl-5 pr-5" >
+                <label ><b>B_Grade Quantity</b></label>
+                <input type="text" mask="9999999" class="form-control rounded-border" aria-describedby="b_gradeHelp" placeholder="Enter quantity of  B_grade fabric ..." [(ngModel)]="b_grade_qty" formControlName="b_grade_qty"  [ngClass]="{ 'is-invalid': submitted && f.b_grade_qty.errors }" required>
+                <div *ngIf="submitted && f.b_grade_qty.errors" class="invalid-feedback">
+                  <div *ngIf="f.b_grade_qty.errors.required">Please enter B_grade_quantity </div>
+                </div>
+              </div>
+              <br>
+
+              <div class="form-group  pl-5 pr-5 showDetails" >
+                  <label ><b>Remarks</b></label>
+                  <input type="text"  class="form-control rounded-border" aria-describedby="addressHelp" placeholder="Enter address ..." [(ngModel)]="remarks" formControlName="remarks" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" required>
+                  <!-- formControlName="remarks"  [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" -->
+                </div>
+                <br>
+
+             <button id="btn-s-o" type="submit" (click)="addOrder()"  class="btn btn btn-outline-primary btn-round btn btn-dark" placeholder="ADD">ADD</button>
+
+        </form>
+    </div>
+  </div>
+</div>
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>

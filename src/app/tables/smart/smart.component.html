@@ -1,0 +1,47 @@
+<h2 class="heading text-center">Smart Table</h2>
+<button (click)="clickMe()">Click</button>
+<h5 class="mt-4">Smart </h5>
+
+
+      
+      <!-- <table id="data_table"  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="display table responsive no-wrap">
+        
+      </table>
+   -->
+
+
+<table class="table table-striped table-bordered table-sm row-border hover"  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" *ngIf="arrBirds">
+ 
+  <thead>
+
+  <tr>
+      <th>Id</th>
+      <th>name</th>
+      <th>type</th>
+      <th>Scientific name</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      
+      
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let bird of arrBirds">
+      <td>{{bird.ID}}</td>
+          <td>{{bird.Name}}</td>
+              <td>{{bird.Type}}</td>
+               <td>{{bird.ScientificName}}</td>
+               <td><a routerLink="/tables/basic" id="edit" class="btn  btn-just-icon btn-round btn-light ">Edit</a></td>
+               <td><button id="delete" class="btn  btn-just-icon btn-round btn-light" (click)="k()">Delete</button></td>
+              
+  </tr>
+  </tbody>
+
+</table>
+
+
+<p class="d-block text-right text-muted"> A name of excellence 
+  <a href="http://www.Edraak.com" target="_blank">EdraakSystems
+    <i class="material-icons" style="font-size: .9rem">launch</i>
+  </a>
+</p>

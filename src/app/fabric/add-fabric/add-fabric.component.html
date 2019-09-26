@@ -1,0 +1,54 @@
+<div class="col-x1" id="fabric">
+  <h4 class="mt-4 mt-xl-0 text-info" id="h4-fab"><strong>Please Add Fabric's Data</strong></h4>
+  <div class="card" id="f1">
+    <div class="card-body bg-light pl-5 pr-5 ">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+        <div class="form-group rounded-border">
+          <label>Fabric Code</label>
+          <input type="text" class="form-control rounded-border " aria-describedby="usernameHelp" [(ngModel)]="fabric_code" formControlName="fabric_code"  [ngClass]="{ 'is-invalid': submitted && f.fabric_code.errors }"
+          />
+          <div *ngIf="submitted && f.fabric_code.errors" class="invalid-feedback">
+            <div *ngIf="f.fabric_code.errors.required">Fabric Code is required</div>
+          </div>
+        </div>
+
+      <div class="row  ">
+        <div class="col-sm-12">
+          <div class="row-6">
+            <label class="control-label" for="Fabric"  ><b>Supplier</b></label>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <select *ngIf="suppliers"  name="supplier_id" [(ngModel)]="supplier_id"  formControlName="supplier_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_id.errors }"  required
+                       class="form-control input-lg" id="supplier" >
+                      <option [ngValue]="null" disabled [selected]="true">Select supplier...</option>
+                      <option *ngFor="let s of suppliers" value={{s.id}}>{{s.name}}</option>
+                  </select>
+                     <div *ngIf="submitted && f.supplier_id.errors" class="invalid-feedback">
+                     <div *ngIf="f.supplier_id.errors.required">Please select supplier</div>
+                     </div>
+                 </div>
+               </div>
+            </div>
+          </div>
+          <br>
+        <button type="submit" id="btn-fab" (click)="addfabric()" class="btn btn btn-outline-primary btn-round btn btn-dark"
+          placeholder="ADD">ADD</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>

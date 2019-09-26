@@ -1,0 +1,63 @@
+
+
+<a routerLink="/fabric/view-fabric" id="edit" class="btn  btn-just-icon btn-round btn-info ">Back</a>
+
+
+<div class="col-x1" id="fabric">
+  <h4 class="mt-4 mt-xl-0 text-info"  id="h4-fab" ><strong>Please Update Fabric's Data</strong></h4>
+  <div class="card"  id="f1" *ngIf="fabric_1" >
+    <div class="card-body bg-light "  >
+      <form  >
+        <div  class="form-group   " >
+          <label class="text-secondary" ><b>Fabric code</b></label>
+          <input  type="text" for="fabric"  class="form-control rounded-border"  name="fabric_code"    [(ngModel)]="fabric_1.fabric_code" required >
+          </div>
+
+          
+      <div class="row  ">
+        <div class="col-sm-12">
+          <div class="row-6">
+            <label class="control-label" for="Fabric"  ><b>Supplier</b></label>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <select *ngIf="fabric_1"  name="supplier" [(ngModel)]="fabric_1.supplier_id"   required
+                       class="form-control input-lg" id="supplier" >
+                      <option value="0">Select supplier...</option>
+                      <option *ngFor="let s of suppliers" value={{s.id}}>{{s.name}}</option>
+                  </select>
+                     
+                 </div>
+               </div>
+            </div>
+          </div>
+          <br>
+        
+           
+                              
+           <button type="submit" id="btn-fab" class="btn btn btn-outline-primary btn-round btn btn-dark" (click)="updateFabric()"placeholder="ADD">UPDATE</button>
+
+                 
+
+
+
+                             
+          </form>
+    </div>
+  </div>
+</div>
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>s

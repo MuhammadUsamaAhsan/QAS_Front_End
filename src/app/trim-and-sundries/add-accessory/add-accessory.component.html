@@ -1,0 +1,204 @@
+<div class="col-x1" id="supplier-order">
+  <h3 class="  text-info" id="h4-s-o"><strong>Trims & Accessories</strong></h3>
+
+  <div  class="card">
+      <div  class="" >
+        <div class="">
+          <div class="card-body">
+
+          <div class="form-row">
+
+            <div class="col ">
+              <label><b>Unit</b></label>
+              <ng-select [items]="units" for="unit" name="unit"
+              bindLabel="name" placeholder="Select unit" bindValue="id" [(ngModel)]="unit_id"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+            </div>
+
+            <div class="col">
+              <label><b>Shift</b></label>
+              <ng-select [items]="shifts" for="shift" name="shift"
+              bindLabel="name" placeholder="Select Shift" bindValue="name" [(ngModel)]="shift"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+            </div>
+
+            <div class="col">
+                <label><b>Type</b></label>
+                    <select name="grade" [(ngModel)]="type"  required class="form-control input-lg">
+                      <option [ngValue]="null" disabled [selected]="true">Select type...</option>
+                      <option value="Internal">Internal</option>
+                      <option value="External">External</option>
+                    </select>
+              </div>
+
+            <div class="col  ">
+              <label><b>Line</b></label>
+              <ng-select [items]="lines" for="line_no" name="line_no"
+              bindLabel="name" placeholder="Select line no." bindValue="name" [(ngModel)]="line_no"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+            </div>
+
+
+            <div class="col mt-1">
+                <h6 class=""><b>Date</b></h6>
+                <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="date" required
+                  placeholder="Click to select Left Date..."></ng2-flatpickr>
+            </div>
+
+            <div class="col mb-2" >
+                <label ><b>User</b></label>
+                 <input type="text"  class="form-control "  aria-describedby="quantityHelp" placeholder="user name" [(ngModel)]="user_name" readonly required>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+        </div>
+  </div>
+  <div id="header_save_btn">
+  <button type="button" (click)="CheckSaveGenericHeader()" class="btn w-13 m-3 btn-primary btn-sm">Save</button>
+</div>
+  <br>
+
+  <div class="card">
+    <div class="card-body bg-light">
+      <!-- <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate> -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+
+          <div class="form-group  pl-5 pr-5 showDetails">
+              <label><b>Wash Type</b></label>
+              <div class="row">
+                <div class="col-sm-12">
+                  <select name="grade" [(ngModel)]="wash_type" (change)="GetAccessories()" formControlName="wash_type"  [ngClass]="{ 'is-invalid': submitted && f.wash_type.errors }"  required class="form-control input-lg">
+                    <option [ngValue]="null" disabled [selected]="true">Select wash type...</option>
+                    <option value="Before">Before wash</option>
+                    <option value="After">After wash</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-group  pl-5 pr-5 showDetails">
+                <label><b>Supplier</b></label>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <ng-select [items]="suppliers" bindLabel="name"   placeholder="Select supplier"
+                      bindValue="id" [(ngModel)]="supplier_id" formControlName="supplier_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_id.errors }" required>
+                    </ng-select>
+
+                  </div>
+                </div>
+              </div>
+              <br>
+
+          <!-- <div class=" form-group col-sm pl-5 pr-5 rounded-border">
+              <h6 class="mt-4 mt-sm-0"><b>Date</b></h6>
+              <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="date" required
+                placeholder="Click to select Left Date..."></ng2-flatpickr>
+            </div>
+            <br> -->
+
+
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+            <label><b>Nomination / Local</b></label>
+            <div class="row">
+              <div class="col-sm-12">
+                <select name="grade" [(ngModel)]="nomination_local" formControlName="nomination_local"  [ngClass]="{ 'is-invalid': submitted && f.nomination_local.errors }"  required class="form-control input-lg"   required class="form-control input-lg"
+                  id="grade">
+                  <option [ngValue]="null" disabled [selected]="true">Select type...</option>
+                  <option value="Nomination">Nomination</option>
+                  <option value="local">Local</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="form-group  pl-5 pr-5 showDetails">
+              <label><b>Orders #</b></label>
+              <div class="row">
+                <div class="col-sm-12">
+
+                  <ng-select [items]="supp_orders" bindLabel="order_no"  formControlName="supplier_fabric_order_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_fabric_order_id.errors }" placeholder="Select Order"
+                    bindValue="id" [(ngModel)]="supplier_fabric_order_id" required>
+                  </ng-select>
+
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <!-- <div class="form-group  pl-5 pr-5 " >
+                <label ><b>Customer</b></label>
+                <ng-select  [items]="customers"  [searchable]="true" bindLabel="customer" formControlName="customer_id" [ngClass]="{ 'is-invalid': submitted && f.customer_id.errors }"
+                placeholder="Select Customer" bindValue="id"  [(ngModel)]="customer_id" required   >
+                </ng-select>
+             </div>
+
+            <br> -->
+
+          <div class="form-group  pl-5 pr-5 " >
+              <label ><b>Item Name</b></label>
+              <ng-select  [items]="accessories"  bindLabel="name"
+              placeholder="Select items" bindValue="id" formControlName="accessory_id" [ngClass]="{ 'is-invalid': submitted && f.accessory_id.errors }" [(ngModel)]="accessory_id" required   >
+              </ng-select>
+           </div>
+          <br>
+
+
+          <div class="form-group  pl-5 pr-5 " >
+              <label ><b>Quantity</b></label>
+               <input type="number"  class="form-control rounded-border"  formControlName="quantity" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" aria-describedby="quantityHelp" placeholder="Enter quantity .." [(ngModel)]="quantity" required>
+          </div>
+          <br>
+
+          <div class="form-group  pl-5 pr-5 showDetails">
+              <label><b>UOM</b></label>
+              <div class="row">
+                <div class="col-sm-12">
+                  <select name="grade" [(ngModel)]="uom" formControlName="uom" [ngClass]="{ 'is-invalid': submitted && f.uom.errors }" required class="form-control input-lg"
+                    id="grade">
+                    <option [ngValue]="null" disabled [selected]="true">Select unit of mass...</option>
+                    <option value="pcs">pcs</option>
+                    <option value="meters">meters</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br>
+
+
+          <div class="form-group  pl-5 pr-5 " >
+              <label ><b>Remarks</b></label>
+               <input type="text"  class="form-control rounded-border" formControlName="remarks" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" aria-describedby="quantityHelp" placeholder="Enter remarks .." [(ngModel)]="remarks" required>
+          </div>
+          <br>
+        <br>
+        <button id="btn-s-o" type="submit" class="btn btn-primary btn-block px-3"
+          (click)="AddAccessory()" placeholder="ADD">Submit    |    محفوظ کریں</button>
+
+      </form>
+    </div>
+  </div>
+
+
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+                Click me!
+            </button> -->
+        </div>
+    </ng-template>
+
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+  </div>

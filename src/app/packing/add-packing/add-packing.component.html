@@ -1,0 +1,114 @@
+<div class="col-x1" id="supplier-order">
+    <h3 class=" mt-xl-0 text-info" id="h4-s-o"><strong>Add Packing</strong></h3>
+
+    <div  class="card">
+      <div  class="" >
+        <div class="">
+          <div class="card-body">
+
+          <div class="form-row">
+
+            <div class="col ">
+              <label><b>Unit</b></label>
+              <ng-select [items]="units" for="unit" name="unit"
+              bindLabel="name" placeholder="Select unit" bindValue="id" [(ngModel)]="unit_id"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+            </div>
+
+            <div class="col">
+              <label><b>Shift</b></label>
+              <ng-select [items]="shifts" for="shift" name="shift"
+              bindLabel="name" placeholder="Select Shift" bindValue="name" [(ngModel)]="shift"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+            </div>
+
+            <div class="col">
+                <label><b>Type</b></label>
+                    <select name="grade" [(ngModel)]="type"  required class="form-control input-lg">
+                      <option [ngValue]="null" disabled [selected]="true">Select type...</option>
+                      <option value="Internal">Internal</option>
+                      <option value="External">External</option>
+                    </select>
+              </div>
+
+            <div class="col  ">
+              <label><b>Line</b></label>
+              <ng-select [items]="lines" for="line_no" name="line_no"
+              bindLabel="name" placeholder="Select line no." bindValue="name" [(ngModel)]="line_no"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+            </div>
+
+
+            <div class="col mt-1">
+                <h6 class=""><b>Date</b></h6>
+                <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="date" required
+                  placeholder="Click to select Left Date..."></ng2-flatpickr>
+            </div>
+
+            <div class="col mb-2" >
+                <label ><b>User</b></label>
+                 <input type="text"   aria-describedby="quantityHelp" placeholder="user name" [(ngModel)]="user_name" readonly required >
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+        </div>
+  </div>
+  <div id="header_save_btn">
+  <button type="button" (click)="CheckSaveGenericHeader()" class="btn w-13 m-3 btn-primary btn-sm">Save</button>
+</div>
+  <br>
+
+    <div class="card" >
+      <div class="card-body bg-light">
+        <!-- <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate> -->
+        <form   [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+
+            <div class="form-group  pl-5 pr-5 showDetails">
+                <label><b>Orders #</b></label>
+                <div class="row">
+                  <div class="col-sm-12">
+                      <ng-select [items]="supp_orders" bindLabel="order_no" formControlName="supplier_fabric_order_id"  [ngClass]="{ 'is-invalid': submitted && f.supplier_fabric_order_id.errors }"   placeholder="Select Order"
+                      bindValue="id" [(ngModel)]="supplier_fabric_order_id" required>
+                    </ng-select>
+                    <div *ngIf="submitted && f.supplier_fabric_order_id.errors" class="text-danger">
+                      <div *ngIf="f.supplier_fabric_order_id.errors.required">Order # is required</div>
+                         </div>
+                  </div>
+                </div>
+              </div>
+
+              <br>
+
+            <div class="form-group  pl-5 pr-5 " >
+                <label ><b>Total Quantity</b></label>
+                 <input type="number"  class="form-control rounded-border" formControlName="quantity"  [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" aria-describedby="quantityHelp"  placeholder="Enter quantity .." [(ngModel)]="quantity" required>
+                 <div *ngIf="submitted && f.quantity.errors" class="text-danger" >
+                    <div *ngIf="f.quantity.errors.required">quantity is required</div>
+                  </div>
+                </div>
+
+            <br>
+
+            <div class="form-group  pl-5 pr-5 " >
+                <label ><b>Cartons(To check)</b></label>
+                 <input type="number"  class="form-control rounded-border" formControlName="to_check"  [ngClass]="{ 'is-invalid': submitted && f.to_check.errors }"  aria-describedby="quantityHelp"  placeholder="Enter remarks .." [(ngModel)]="to_check" required>
+                 <div *ngIf="submitted && f.to_check.errors" class="text-danger" >
+                  <div *ngIf="f.to_check.errors.required">Carton is required</div>
+                     </div>
+                </div>
+            <br>
+
+
+          <button id="btn-s-o" type="submit" class="btn btn-primary btn-block px-4"
+            (click)="AddPacking()" placeholder="ADD">Submit    |    محفوظ کریں</button>
+
+        </form>
+      </div>
+    </div>
+  </div>

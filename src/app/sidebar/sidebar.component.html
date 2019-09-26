@@ -1,0 +1,40 @@
+<div class="sidebar" [class.hide]="cmnSrv.dashboardState.sidebarToggle">
+    <div class="sidebar-header align-middle" style="background-color:rgb(226, 234, 235)">
+        <!-- <img class="brandImg" src="http://via.placeholder.com/60x60" alt="brandImg"> -->
+
+        <strong class="heading text-uppercase d-inline-block mini-hide"><h3><strong class="text-primary" >S T Y L E R S </strong></h3>
+        </strong>
+    </div>
+    <hr class="underline">
+    <div class="sidebar-body">
+        <ul>
+            <li *ngFor="let item of sidebarItems;let i = index;" class="sidebar-item" [class.active]="temp.isActive" #temp="routerLinkActive" routerLinkActive [routerLinkActiveOptions]="{exact: true}">
+                <a *ngIf="!item.subItem" [routerLink]="item.link"><strong class="mini-hide text-capitalize ">{{item.label}}</strong><span class="arrow mini-hide" ></span><i class="fa fa- "></i></a>
+
+
+
+                <!-- if sub menu  -->
+                <a *ngIf="!!item.subItem" data-toggle="collapse" [href]="'#'+item.label.split(' ').join('')" [class.collapsed]="!temp.isActive"><i class={{item.googleicon}}></i><strong  class="text-capitalize mini-hide">{{item.label}}</strong></a>
+                <div *ngIf="!!item.subItem" class="collapse" [class.show]="temp.isActive" [id]="item.label.split(' ').join('')">
+                    <li *ngFor="let subIteml1 of item.subItem" class="sidebar-sub-item" routerLinkActive="">
+                        <a *ngIf="!subIteml1.subItem" [routerLink]=subIteml1.link><span class="txt-icon text-uppercase">{{subIteml1.icon}}</span><strong class="text-capitalize mini-hide"> {{subIteml1.label}} </strong><span class="arrow mini-hide"></span></a>
+                        <!-- if sub menu level 2 -->
+                        <a *ngIf="!!subIteml1.subItem" data-toggle="collapse" [href]="'#'+subIteml1.label.split(' ').join('')" [class.collapsed]="!temp.isActive"><span class="txt-icon text-uppercase">{{subIteml1.icon}}</span><i class="fa fa-map"></i><strong class="text-capitalize mini-hide">{{subIteml1.label}}</strong></a>
+                        <div *ngIf="!!subIteml1.subItem" class="collapse" [class.show]="temp.isActive" [id]="subIteml1.label.split(' ').join('')">
+                            <!-- <li *ngFor="let subIteml2 of subIteml1.subItem" class="sidebar-sub-item-2" routerLinkActive="active"><a [routerLink]=subIteml2.link><span class="txt-icon text-uppercase">{{subIteml2.icon}}</span><strong class="text-capitalize mini-hide"> {{subIteml2.label}} </strong><span class="arrow mini-hide"></span></a> -->
+                            <li *ngFor="let subIteml2 of subIteml1.subItem" class="sidebar-sub-item-2" routerLinkActive="">
+                                <a *ngIf="!subIteml2.subItem" [routerLink]=subIteml2.link><span class="txt-icon text-uppercase">{{subIteml2.icon}}</span><strong class="text-capitalize mini-hide"> {{subIteml1.label}} </strong><span class="arrow mini-hide"></span></a>
+                                <!-- if sub menu level 3 -->
+                                <a *ngIf="!!subIteml2.subItem" data-toggle="collapse" [href]="'#'+subIteml2.label.split(' ').join('')" [class.collapsed]="!temp.isActive"><span class="txt-icon text-uppercase">{{subIteml2.icon}}</span><i class="fa fa-bullseye"></i><strong class="text-capitalize mini-hide">{{subIteml2.label}}</strong></a>
+                                <div *ngIf="!!subIteml2.subItem" class="collapse" [class.show]="temp.isActive" [id]="subIteml2.label.split(' ').join('')">
+                                    <li *ngFor="let subIteml3 of subIteml2.subItem" class="sidebar-sub-item-2 pl-3" routerLinkActive=""><a [routerLink]=subIteml3.link><span class="txt-icon text-uppercase">{{subIteml3.icon}}</span><i class="fa fa-caret-right"></i><strong class="text-capitalize mini-hide"> {{subIteml3.label}} </strong><span class="arrow mini-hide"></span></a></li>
+                                </div>
+                            </li>
+                        </div>
+                    </li>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div *ngIf="!cmnSrv.dashboardState.sidebarToggle" class="sidebarOutside" (click)="cmnSrv.sidebarToggle()"></div>

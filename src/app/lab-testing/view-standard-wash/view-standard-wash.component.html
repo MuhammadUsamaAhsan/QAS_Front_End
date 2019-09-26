@@ -1,0 +1,132 @@
+<h2 class="heading text-center text-info"><b>Lab Test Report ( Standard Wash )</b></h2>
+
+<div class="card">
+
+    <div class="card-body bg-light" >
+        <div class="row " style="float:center;padding-left: 2% " >
+
+        <div class="col-sm-4">
+          <div class="form-row">
+
+              <label class="" for="Fabric"   style="float:left; margin-top: 6px"><b>Article</b></label>
+            <div class="col-md-10">
+
+               <ng-select  [items]="fabric_"  bindLabel="fabric_code"
+               placeholder="Select article" bindValue="fabric_code"  [(ngModel)]="fabric_code" required   >
+               </ng-select>
+
+           </div>
+         </div>
+      </div>
+
+
+
+
+      <div class="col-sm-3">
+
+          <div class="col-sm  rounded-border">
+              <label class="pr-3"   style="float:left; margin-top: 6px"><b>Start Date</b></label>
+
+                  <div class="row ">
+
+
+                <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="start_date"   required placeholder= "select Start Date..."></ng2-flatpickr>
+           </div>
+          </div>
+      </div>
+      <div class="col-sm-3">
+          <div class="col-sm  rounded-border">
+              <label class="pr-3"   style="float:left; margin-top: 6px"><b>End Date</b></label>
+
+            <div class="row">
+                <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="end_date"   required placeholder="select End Date..."></ng2-flatpickr>
+           </div>
+          </div>
+      </div>
+
+
+   <div class=" col "  >
+       <button type="button" id="btn-report" (click)="View()"  class=" btn btn-info  pr-5 ml-5" placeholder="view">View</button>
+    </div>
+
+
+    </div>
+  </div>
+
+</div>
+<br>
+<div class="card" >
+  <div class="card-body">
+
+    <table class="table table-striped table-bordered table-lg  row-border hover" datatable [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger" *ngIf="showTable">
+
+      <thead>
+
+        <tr>
+          <th rowspan="2">Id</th>
+          <th rowspan="2" style="width: 220px !important">Order_no</th>
+          <th rowspan="2">Supplier</th>
+          <th rowspan="2" style="width: 220px !important">Fabric_code</th>
+          <th rowspan="2">Customer</th>
+          <th rowspan="2">Quantity</th>
+          <th rowspan="2">Wash</th>
+          <th rowspan="2">GSM (oz/yd²)</th>
+          <th colspan="2">Tear_Strength</th>
+          <th colspan="2">Shrinkage_Length</th>
+          <th colspan="2">Stretch_Growth</th>
+          <th colspan="2">Crocking_&_Rubbing</th>
+          <th rowspan="2">Remarks</th>
+          <th rowspan="2">Prepared_by</th>
+          <th rowspan="2" style="width: 160px !important">Date</th>
+        </tr>
+        <tr>
+          <th>warp%</th>
+          <th>weft%</th>
+          <th>warp%</th>
+          <th>weft%</th>
+          <th>30_min</th>
+          <th>60_min</th>
+          <th>Dry</th>
+          <th>Wet</th>
+
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of wash_detail_standard_wash">
+          <td>{{item.id}}</td>
+          <td>{{item.order_no}}</td>
+          <td>{{item.supplier}}</td>
+          <td>{{item.fabric_code}}</td>
+          <td>{{item.customer}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.wash}}</td>
+          <td>{{item.gsm}}</td>
+          <td>{{item.tear_strength_warp_perc}}</td>
+          <td>{{item.tear_strength_weft_perc}}</td>
+          <td>{{item.shrinkage_length_warp}}</td>
+          <td>{{item.shrinkage_length_weft}}</td>
+          <td>{{item.stretch_growth_30_min}}</td>
+          <td>{{item.stretch_growth_60_min}}</td>
+          <td *ngIf="item.crocking_rubbing_dry_min!=0">{{item.crocking_rubbing_dry_min}}&nbsp;-&nbsp;{{item.crocking_rubbing_dry_max}}</td>
+          <td *ngIf="item.crocking_rubbing_dry_min==0">{{item.crocking_rubbing_dry_max}}</td>
+          <td *ngIf="item.crocking_rubbing_wet_min!=0">{{item.crocking_rubbing_wet_min}}&nbsp;-&nbsp;{{item.crocking_rubbing_wet_max}}</td>
+          <td *ngIf="item.crocking_rubbing_wet_min==0">{{item.crocking_rubbing_wet_max}}</td>
+          <td>{{item.remarks}}</td>
+          <td>{{item.prepared_by}}</td>
+          <td>{{item.date}}</td>
+
+
+
+
+          <!-- <td><a [routerLink]="['/manage-rolls/edit-roll',{id:item.id } ] "
+              class="btn  btn-just-icon btn-round btn-light ">Edit</a></td> -->
+          <!-- <td><button id="delete" class="btn  btn-just-icon btn-round btn-light" (click)="k()">Delete</button></td>  -->
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>

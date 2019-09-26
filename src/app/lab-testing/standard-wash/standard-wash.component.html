@@ -1,0 +1,377 @@
+<div class="row pb-4" >
+
+  <div class="col-3">
+    <div class="form-group  pl-5  showDetails">
+
+      <div class="row pl-4">
+        <label><b>Wash Type </b></label>
+      </div>
+      <div class="col-sm-12">
+        <select name="wash_type" [(ngModel)]="wash_type" placeholder="Select Wash Type..." required
+          class="form-control input-lg" id="wash_type">
+          <option selected disabled>Select Wash Type...</option>
+          <option value="three_HL">3HL</option>
+          <option value="standard_wash">Standard Wash</option>
+        </select>
+        <!-- <div *ngIf="submitted && f.is_audit.errors" class="invalid-feedback">
+                  <div *ngIf="f.is_audit.errors.required">Audit Status is required</div>
+                </div> -->
+      </div>
+
+    </div>
+  </div>
+  <div class="col-8 ml-5 pl-5">
+    <h1 class="mt-1 heading  text-info ">Fabric Test Report</h1><br>
+  </div>
+
+</div>
+
+
+
+<div class="card " id="s-o" style="width:90%;margin-left: 5%">
+  <div class="card-body bg-light ml-5 mr-5 mt-4">
+
+
+    <div id="roll" class="ml-4  " *ngIf="orders_">
+
+      <div class="form-row">
+
+        <div class="col  pl-4 pr-4">
+          <label><b>Supplier</b></label>
+          <input type="text" class="form-control rounded-border" name="supplier" [(ngModel)]="orders_.supplier"
+            aria-describedby="supplierHelp" ReadOnly>
+        </div>
+
+        <div class="col   pl-4 pr-4">
+          <label><b>Fabric Code</b></label>
+          <input type="text" class="form-control rounded-border" name="fabric_code" for="fabric_code"
+            [(ngModel)]="orders_.fabric_code" aria-describedby="fabric_codeHelp" ReadOnly>
+        </div>
+
+        <div class="col  pl-4 pr-4">
+          <label><b>Customer</b></label>
+          <input type="text" class="form-control rounded-border" name="customer" for="customer"
+            [(ngModel)]="orders_.cust" aria-describedby="customerHelp" ReadOnly>
+        </div>
+
+        <!-- <div class="col  pl-2 pr-2"  >
+                <label ><b>Order no</b></label>
+                <input type="text" class="form-control rounded-border" name="order_no" for="order_no" [(ngModel)]="orders_.order_no"  aria-describedby="order_noHelp" ReadOnly >
+              </div> -->
+
+        <div class="col  pl-4 pr-4">
+          <label><b>Quantity</b></label>
+          <input type="text" class="form-control rounded-border" name="quantity" for="quantity"
+            [(ngModel)]="orders_.quantity" aria-describedby="quantityHelp" ReadOnly>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="form-row">
+      <div class="row">
+        <div class="col-10 ml-5 mr-2 ">
+          <div class="form-group   showDetails">
+            <label><b>SIPL</b></label>
+            <ng-select [items]="supp_orders" for="id_" name="id_" (click)="FetchSupplierOrderDetails()"
+              bindLabel="order_no" placeholder="Select Order" bindValue="id" [(ngModel)]="id_"
+              [ngModelOptions]="{standalone: true}" required>
+            </ng-select>
+
+            <!-- <div *ngIf="submitted && f.supplier_fabric_order_id.errors" class="invalid-feedback">
+                              <div *ngIf="f.supplier_fabric_order_id.errors.required">SIPL is required</div> -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-3 pl-5" *ngIf="wash_type=='three_HL'">
+        <label><b>Composition</b></label>
+        <input type="text " name="composition" for="composition" [(ngModel)]="composition"
+          class="form-control rounded-border" aria-describedby="compostionHelp" placeholder="Enter Compostion...">
+      </div>
+
+      <div class="col-3 pl-5" *ngIf="wash_type=='three_HL'">
+        <label><b>Weave</b></label>
+        <input type="text " name="weave" for="weave" [(ngModel)]="weave" class="form-control rounded-border"
+          aria-describedby="weaveHelp" placeholder="Enter weave...">
+      </div>
+
+      <div class="col=3 pl-5">
+        <label><b>Date</b></label>
+        <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="date" required placeholder="Click to select Date...">
+        </ng2-flatpickr>
+      </div>
+    </div>
+
+
+  </div>
+  <br>
+  <div class="col-x1" id="supplier-order">
+    <h3 class="mt-1 ml-5 heading text-center text-info" id="h4-s-o">Please Add Testing Details</h3>
+    <div class="card pl-5 pr-5" id="s-o">
+      <div class="card-body bg-light" style="padding-left: 15%;padding-right: 15%">
+
+        <div *ngIf="wash_type=='three_HL'" >
+        <div class="form-group rounded-border pr-5 pl-5" *ngIf="rollnos">
+          <label><b>Roll #</b></label>
+          <ng-select [items]="rollnos" name="roll_no" [ngModelOptions]="{standalone: true}" bindLabel="roll_no"
+            placeholder="Select roll_no" bindValue="roll_no" [(ngModel)]="rollnos.roll_no" required>
+          </ng-select>
+          <!-- <div *ngIf="submitted && f.roll_no.errors" class="invalid-feedback">
+                          <div *ngIf="f.roll_no.errors.required"> Roll no. is required</div>
+                        </div> -->
+        </div>
+      </div>
+        <br>
+
+        <div *ngIf="wash_type=='three_HL'">
+        <div class="form-group rounded-border pr-5 pl-5" *ngIf="rollnos">
+          <label><b>Meters</b></label>
+          <input type="text" class="form-control rounded-border" aria-describedby="nameHelp"
+            placeholder="Enter Quantity" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}" />
+          <!-- <div *ngIf="submitted && f.meters.errors" class="invalid-feedback">
+                          <div *ngIf="f.meters.errors.required"> Quantity is required</div>
+                        </div> -->
+        </div>
+        </div>
+
+        <br>
+
+        <div *ngIf="wash_type=='three_HL'">
+          <div class="form-group  pl-5 pr-5">
+          <label><b>Cuttable Width</b></label>
+          <input type="text" name="cuttable_width" [(ngModel)]="cuttable_width" class="form-control rounded-border"
+            aria-describedby="cuttabelWidthHelp" placeholder="Enter Cuttable Width...">
+          <!-- <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                          <div *ngIf="f.quantity.errors.required"> cuttable_width is required</div>
+                        </div> -->
+          </div>
+        </div>
+        <br>
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>GSM / Weight</b></label>
+          <input type="text" name="gsm" [(ngModel)]="gsm" class="form-control rounded-border"
+            aria-describedby="washHelp" placeholder="Enter Gsm ..." />
+          <!-- <div *ngIf="submitted && f.wash.errors" class="invalid-feedback">
+                            <div *ngIf="f.wash.errors.required"> Wash is required</div>
+                          </div> -->
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5 showDetails" *ngIf="wash_type=='three_HL'">
+          <label><b>PH (4 - 7.5)</b></label>
+          <input type="text" name="ph" [(ngModel)]="ph" class="form-control rounded-border"
+            aria-describedby="phHelp" placeholder="Enter Ph ..." />
+          <!-- <div *ngIf="submitted && f.wash.errors" class="invalid-feedback">
+                            <div *ngIf="f.wash.errors.required"> Wash is required</div>
+                          </div> -->
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5 showDetails" *ngIf="wash_type=='standard_wash'">
+          <label><b>Wash</b></label>
+          <input type="text" name="wash" [(ngModel)]="wash" class="form-control rounded-border"
+            aria-describedby="washHelp" placeholder="Enter wash ..." />
+          <!-- <div *ngIf="submitted && f.wash.errors" class="invalid-feedback">
+                          <div *ngIf="f.wash.errors.required"> Wash is required</div>
+                        </div> -->
+        </div>
+
+        <div class="form-group pl-5 pr-5 showDetails">
+          <label><b>Shrinkage Length </b></label>
+          <div class="row">
+            <div class="col-6">
+
+              <div class="col ml-2">
+                <label><b>warp(%)</b></label>
+              </div>
+              <div class="col-11 ">
+                <input type="text" class="form-control rounded-border" name="shrinkage_length_warp_perc"
+                  [(ngModel)]="shrinkage_length_warp_perc" aria-describedby="addressHelp"
+                  placeholder="Enter warp_perc...">
+              </div>
+            </div>
+            <!-- <div *ngIf="submitted && f.tear_strength_warp_perc.errors" class="invalid-feedback">
+                                    <div *ngIf="f.tear_strength_warp_perc.errors.required">Tear strength warp perc required</div>
+                                  </div> -->
+
+            <div class="col-6">
+              <div class="col ml-2">
+                <label><b>weft(%)</b></label>
+              </div>
+              <div class="col-12">
+                <input type="text" class="form-control rounded-border" name="shrinkage_length_weft_perc"
+                  [(ngModel)]="shrinkage_length_weft_perc" aria-describedby="addressHelp"
+                  placeholder="Enter weft_perc...">
+              </div>
+              <!-- <div *ngIf="submitted && f.tear_strength_weft_perc.errors" class="invalid-feedback">
+                                    <div *ngIf="f.tear_strength_weft_perc.errors.required">Tear strength weft perc required</div>
+                                  </div> -->
+
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Tear Strength </b></label>
+          <div class="row">
+            <div class="col-6">
+
+                <div class="col ml-2 ">
+                  <label><b>warp(gm)</b></label>
+                </div>
+                <div class="col-11">
+                  <input type="text" class="form-control rounded-border" name="tear_strength_warp_perc"
+                    [(ngModel)]="tear_strength_warp_perc" aria-describedby="addressHelp"
+                    placeholder="Enter warp_perc...">
+                </div>
+              </div>
+                <!-- <div *ngIf="submitted && f.tear_strength_warp_perc.errors" class="invalid-feedback">
+                                  <div *ngIf="f.tear_strength_warp_perc.errors.required">Tear strength warp perc required</div>
+                                </div> -->
+              <div class="col-6">
+                <div class="col ml-2">
+                  <label><b>weft(gm)</b></label>
+                </div>
+                <div class="col-12">
+                  <input type="text" class="form-control rounded-border" name="tear_strength_weft_perc"
+                    [(ngModel)]="tear_strength_weft_perc" aria-describedby="addressHelp"
+                    placeholder="Enter weft_perc...">
+                </div>
+                <!-- <div *ngIf="submitted && f.tear_strength_weft_perc.errors" class="invalid-feedback">
+                                  <div *ngIf="f.tear_strength_weft_perc.errors.required">Tear strength weft perc required</div>
+                                </div> -->
+
+              </div>
+            </div>
+          </div>
+
+        <br>
+
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Stretch Growth </b></label>
+          <div class="row">
+            <div class="col-6">
+
+                <div class="col ml-2">
+                  <label><b>30 mint(%)</b> </label>
+                </div>
+                <div class="col-11">
+                  <input type="text" class="form-control rounded-border" name="stretch_growth_30_min"
+                    [(ngModel)]="stretch_growth_30_min" aria-describedby="addressHelp"
+                    placeholder="Enter 30 mint perc...">
+                </div>
+                </div>
+                <!-- <div *ngIf="submitted && f.stretch_growth_30_min.errors" class="invalid-feedback">
+                                    <div *ngIf="f.stretch_growth_30_min.errors.required">Stretch growth 30_mint perc required</div>
+                                  </div> -->
+              <div class="col-6">
+                <div class="col ml-2">
+                  <label><b>60 mint(%)</b></label>
+                </div>
+                <div class="col-12 ">
+                  <input type="text" class="form-control rounded-border" name="tear_strength_weft_perc"
+                    [(ngModel)]="stretch_growth_60_min" aria-describedby="addressHelp" placeholder="Enter weft_perc...">
+                </div>
+                <!-- <div *ngIf="submitted && f.stretch_growth_60_min.errors" class="invalid-feedback">
+                                    <div *ngIf="f.stretch_growth_60_min.errors.required">Stretch growth 60_mint perc required</div>
+                                  </div> -->
+              </div>
+            </div>
+          </div>
+
+        <br>
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Crocking & Rubbing</b></label>
+          <div class="row">
+            <div class="col-6">
+
+                <div class="col ">
+                  <label><b>Dry </b></label>
+                </div>
+                <div class="col-12">
+                  <ng5-slider [(value)]="crocking_rubbing_dry_min" [(highValue)]="crocking_rubbing_dry_max"
+                    [options]="options"></ng5-slider>
+                  <div class="row">
+                    <div class="col-5 ">
+                      <p>Start: <input class="rounded-border" type="number" style="
+                        width: 55px;
+                    "step="{{options.step}}"
+                          [(ngModel)]="crocking_rubbing_dry_min"></p>
+                    </div>
+                    <!-- <div class="col-2"></div> -->
+                    <div class="col-5">
+                      <p>End: <input class="rounded-border" style="width: 55px;" type="number" step="{{options.step}}"
+                          [(ngModel)]="crocking_rubbing_dry_max"></p>
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+                <!-- <div *ngIf="submitted && f.tear_strength_warp_perc.errors" class="invalid-feedback">
+                                    <div *ngIf="f.tear_strength_warp_perc.errors.required">Tear strength warp perc required</div>
+                                  </div> -->
+                <div class="col-6">
+                <div class="col ">
+                  <label><b>Wet</b></label>
+                </div>
+                <div class="col-12">
+
+                  <ng5-slider [(value)]="crocking_rubbing_wet_min" [(highValue)]="crocking_rubbing_wet_max"
+                    [options]="options"></ng5-slider>
+                  <div class="row">
+                    <div class="col-5 ">
+                      <p>Start: <input class="rounded-border" type="number" style="width: 55px;"  step="{{options.step}}"
+                          [(ngModel)]="crocking_rubbing_wet_min"></p>
+                    </div>
+                    <div class="col-5 ">
+                      <p>End: <input class="rounded-border" type="number" style="width: 55px;" step="{{options.step}}"
+                          [(ngModel)]="crocking_rubbing_wet_max"></p>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div *ngIf="submitted && f.tear_strength_weft_perc.errors" class="invalid-feedback">
+                                    <div *ngIf="f.tear_strength_weft_perc.errors.required">Tear strength weft perc required</div>
+                                  </div> -->
+           </div>
+          </div>
+        </div>
+           <br>
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Remarks</b></label>
+          <input type="text" name="remarks" [(ngModel)]="remarks" class="form-control rounded-border"
+            aria-describedby="washHelp" placeholder="Enter remarks ..." />
+          <!-- <div *ngIf="submitted && f.wash.errors" class="invalid-feedback">
+                              <div *ngIf="f.wash.errors.required"> Wash is required</div>
+                            </div> -->
+        </div>
+        <br>
+        <div class="form-group  pl-5 pr-5 showDetails" *ngIf="wash_type=='standard_wash'">
+          <label><b>Prepared by</b></label>
+          <input type="text" name="prepared_by" [(ngModel)]="prepared_by" class="form-control rounded-border"
+            aria-describedby="washHelp" placeholder="Enter name ..." />
+          <!-- <div *ngIf="submitted && f.wash.errors" class="invalid-feedback">
+                                <div *ngIf="f.wash.errors.required"> Wash is required</div>
+                              </div> -->
+        </div>
+
+        <br>
+
+        <!-- <button id="btn-s-o" type="submit" class="btn btn btn-outline-primary btn-round btn btn-dark"
+                        (click)="AddRoll()" placeholder="ADD">ADD</button> -->
+
+
+
+
+    </div>
+  </div>
+  </div>
+
+  <br>
+  <div class="col text-center pb-5">
+    <button (click)="AddRecord()" class="btn btn-outline-info " placeholder="Add">Add</button>
+  </div>

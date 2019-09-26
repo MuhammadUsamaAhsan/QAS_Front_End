@@ -1,0 +1,131 @@
+
+<div class="col-x1" id="user">
+    <h4 class="mt-4 mt-xl-0  text-info"  id="h4-user"><strong>Please Add User's Data</strong></h4>
+    <div class="card form-group"   id="u1">
+      <div class="card-body bg-light"  >
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+          <div class="form-group pl-5 pr-5">
+            <label ><b>User name</b></label>
+            <input  type="text" class="form-control" pattern="[a-z]{1,15}" class="form-control rounded-border" aria-describedby="usernameHelp"  placeholder="Enter user name..." [(ngModel)]="user_name" formControlName="user_name"  [ngClass]="{ 'is-invalid': submitted && f.user_name.errors }"  required />
+            <div *ngIf="submitted && f.user_name.errors" class="invalid-feedback">
+              <div *ngIf="f.user_name.errors.required"> user_name is required</div>
+            </div>
+          </div>
+
+          <br>
+          <div class="form-group pl-5 pr-5"  >
+              <label ><b>First name</b></label>
+              <input type="text"  class="form-control rounded-border" aria-describedby="firstnameHelp" placeholder="Enter first name..." [(ngModel)]="first_name" formControlName="first_name"  [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }"  required />
+              <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+                <div *ngIf="f.first_name.errors.required"> first_name is required</div>
+              </div>
+            </div>
+            <br>
+            <div class="form-group pl-5 pr-5" >
+                <label ><b>Last name</b></label>
+                <input type="text" ngModel pattern="[a-zA-Z ]*"  class="form-control rounded-border" aria-describedby="lastnameHelp" placeholder="Enter last name..." [(ngModel)]="last_name" formControlName="last_name"  [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"  required />
+                <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                  <div *ngIf="f.last_name.errors.required"> last_name is required</div>
+                </div>
+              </div>
+              <br>
+              <div class="form-group pl-5 pr-5 " >
+                  <label ><b>Address</b></label>
+                  <input type="email" class="form-control rounded-border" aria-describedby="addressHelp" placeholder="Enter adress..." [(ngModel)]="address" formControlName="address"  [ngClass]="{ 'is-invalid': submitted && f.address.errors }"  required />
+                  <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                    <div *ngIf="f.address.errors.required"> address is required</div>
+                  </div>
+                </div>
+                <br>
+                <div class="form-group pl-5 pr-5">
+                    <label ><b>Password</b></label>
+                    <input type="password" class="form-control rounded-border" placeholder="Password..." [(ngModel)]="password" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }"  required />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required"> password is required</div>
+                      <div *ngIf="f.password.errors.minlength"> password must have at least 6 characters!!</div>
+                    </div>
+                    </div>
+                    <br>
+
+
+                    <div class="form-group pl-5 pr-5" >
+                    <label  ><b>Phone</b></label>
+                    <input type="tel" prefix="+92  " mask="(000)  0000000" [showMaskTyped] = "true" class="form-control rounded-border" aria-describedby="phoneHelp" placeholder="+92 (xxx) xxxxxxx"  [(ngModel)]="phone" formControlName="phone"  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"  required />
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.phone.errors.required"> phone is required</div>
+                    </div>
+                  </div>
+                  <br>
+
+
+
+
+                  <div class="form-group pl-5 pr-5" >
+                      <label ><b>CNIC</b></label>
+                      <input type="tel"  mask="00000-0000000-0" [showMaskTyped] = "true"  class="form-control rounded-border" aria-describedby="cnicHelp" placeholder="xxxxx-xxxxxxx-x" [(ngModel)]="cnic" formControlName="cnic"  [ngClass]="{ 'is-invalid': submitted && f.cnic.errors }"  required />
+                      <div *ngIf="submitted && f.cnic.errors" class="invalid-feedback">
+                        <div *ngIf="f.cnic.errors.required"> cnic is required</div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-group pl-5 pr-5" >
+                        <label ><b>Email</b></label>
+                        <input type="email"  class="form-control rounded-border"  aria-describedby="emailHelp" placeholder="abc@gmail.com" [(ngModel)]="email" formControlName="email"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  required />
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                          <div *ngIf="f.email.errors.required"> Email is required</div>
+                          <div *ngIf="f.email.errors.email"> please enter valid email like (abc@gmail.com) </div>
+                        </div>
+                      </div>
+                      <br>
+
+
+
+                          <div class="form-group pl-5 pr-5   rounded-border" >
+                              <h6 class="mt-4 mt-sm-0"><b> Joining Date</b></h6>
+                                <ng2-flatpickr   id="date" name="joining_date" [(ngModel)]="joining_date" formControlName="joining_date"  [ngClass]="{ 'is-invalid': submitted && f.joining_date.errors }" required  placeholder="Click to select joining Date..."></ng2-flatpickr>
+
+                            </div>
+                            <br>
+
+                            <div class="col-sm pl-5 pr-5 rounded-border">
+                                <h6 class="mt-4 mt-sm-0"><b> Left Date</b></h6>
+                                  <ng2-flatpickr    name="left_date" [(ngModel)]="left_date" formControlName="left_date"  [ngClass]="{ 'is-invalid': submitted && f.left_date.errors }" required placeholder="Click to select Left Date..."></ng2-flatpickr>
+                             </div>
+                              <br>
+                              <br>
+                              <div class="col-sm pl-5 pr-5 rounded-border">
+                                  <h6 class="mt-4 mt-sm-0"><b> Birth Date</b></h6>
+                                    <ng2-flatpickr   name="birth_date" [(ngModel)]="birth_date" formControlName="birth_date"  [ngClass]="{ 'is-invalid': submitted && f.birth_date.errors }" required placeholder="Click to select Birth Date..."></ng2-flatpickr>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="col-sm pl-5 pr-5 rounded-border">
+                                  <h6 class="mt-4 mt-sm-0"><b> User Role</b></h6>
+                                <select   [(ngModel)]="user_type_id" name="user_type_id"  formControlName="user_type_id"  [ngClass]="{ 'is-invalid': submitted && f.user_type_id.errors }" required class="form-control input-md" >
+                                  <option [ngValue]="null" disabled [selected]="true">Select Role</option>
+                                  <option *ngFor="let h of UserRoles" value={{h.id}}>{{h.name}}</option>
+                                </select>
+                              </div>
+                              <br>
+                              <br>
+                                  <button type="submit" id="btn-user" (click)="AddUser()"  class="btn btn btn-outline-primary btn-round btn btn-dark" placeholder="ADD">ADD</button>
+           </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+                Click me!
+            </button> -->
+        </div>
+    </ng-template>
+  
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+  </div>
+

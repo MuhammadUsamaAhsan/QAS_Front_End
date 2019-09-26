@@ -1,0 +1,186 @@
+<div class="col-x1" id="supplier-order">
+  <h4 class="mt-4 mt-xl-0 text-info" id="h4-s-o"><strong>Please Add Roll's Data</strong></h4>
+  <div class="card" id="s-o">
+    <div class="card-body bg-light">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+
+        <div class="form-group rounded-border pr-5 pl-5">
+          <label><b>Roll #</b></label>
+          <input type="text" class="form-control rounded-border" aria-describedby="roll_noHelp"
+            placeholder="Enter Roll no." [(ngModel)]="roll_no" formControlName="roll_no"
+            [ngClass]="{ 'is-invalid': submitted && f.roll_no.errors }" />
+          <div *ngIf="submitted && f.roll_no.errors" class="invalid-feedback">
+            <div *ngIf="f.roll_no.errors.required"> Roll no. is required</div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group rounded-border pr-5 pl-5">
+          <label><b>Quantity</b></label>
+          <input type="text" class="form-control rounded-border" aria-describedby="nameHelp"
+            placeholder="Enter Quantity" [(ngModel)]="quantity" formControlName="quantity"
+            [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" />
+          <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+            <div *ngIf="f.quantity.errors.required"> Quantity is required</div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Supplier Fabric Orders </b></label>
+          <div class="row">
+            <div class="col-sm-12">
+
+              <ng-select [items]="supp_orders" bindLabel="order_no" formControlName="supplier_fabric_order_id"
+                [ngClass]="{ 'is-invalid': submitted && f.supplier_fabric_order_id.errors }" placeholder="Select Order"
+                bindValue="id" [(ngModel)]="supplier_fabric_order_id" required>
+              </ng-select>
+
+              <div *ngIf="submitted && f.supplier_fabric_order_id.errors" class="invalid-feedback">
+                <div *ngIf="f.supplier_fabric_order_id.errors.required">supplier_fabric_order_id is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+
+
+
+        <!-- <div class="form-group  pl-5 pr-5 ">
+          <label><b>Customer</b></label>
+          <ng-select [items]="customers" bindLabel="customer" formControlName="customer_id"
+            [ngClass]="{ 'is-invalid': submitted && f.customer_id.errors }" placeholder="Select Customer" bindValue="id"
+            [(ngModel)]="customer_id" required>
+          </ng-select>
+          <div *ngIf="submitted && f.customer_id.errors" class="invalid-feedback">
+            <div *ngIf="f.customer_id.errors.required"> customer is required</div>
+          </div>
+        </div>
+        <br> -->
+
+
+        <div class="form-group  pl-5 pr-5">
+          <label><b>Cuttable Width</b></label>
+          <input type="text" mask="9999999" name="cuttable_width" [(ngModel)]="cuttable_width"
+            formControlName="cuttable_width" class="form-control rounded-border" aria-describedby="cuttabelWidthHelp"
+            [ngClass]="{ 'is-invalid': submitted && f.cuttable_width.errors }" placeholder="Enter Cuttable Width...">
+          <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+            <div *ngIf="f.quantity.errors.required"> cuttable_width is required</div>
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Points Score</b></label>
+          <input type="text" mask="9999999" name="points_score" [(ngModel)]="points_score"
+            formControlName="points_score" class="form-control rounded-border" aria-describedby="points_scoresHelp"
+            [ngClass]="{ 'is-invalid': submitted && f.points_score.errors }" placeholder="Enter Points score ..." />
+          <div *ngIf="submitted && f.points_score.errors" class="invalid-feedback">
+            <div *ngIf="f.points_score.errors.required"> points_score is required</div>
+          </div>
+        </div>
+        <br>
+
+
+
+
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Grade</b></label>
+          <div class="row">
+            <div class="col-sm-12">
+              <select name="grade" [(ngModel)]="grade" formControlName="grade"
+                [ngClass]="{ 'is-invalid': submitted && f.grade.errors }" required class="form-control input-lg"
+                id="grade">
+                <option [ngValue]="null" disabled [selected]="true">select grade...</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+              <div *ngIf="submitted && f.grade.errors" class="invalid-feedback">
+                <div *ngIf="f.grade.errors.required">Grade must be selected</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <br>
+
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Local Inspection Points Score </b></label>
+          <input type="text" class="form-control rounded-border" name="local_inspection_point_score"
+            [(ngModel)]="local_inspection_point_score" formControlName="local_inspection_point_score"
+            aria-describedby="addressHelp"
+            [ngClass]="{ 'is-invalid': submitted && f.local_inspection_point_score.errors }"
+            placeholder="Enter local inspection point score...">
+          <div *ngIf="submitted && f.local_inspection_point_score.errors" class="invalid-feedback">
+            <div *ngIf="f.local_inspection_point_score.errors.required"> local_inspection_point_score is required</div>
+          </div>
+        </div>
+        <br>
+
+
+
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Audit Status </b></label>
+          <div class="row">
+            <div class="col-sm-12">
+              <select name="is_audit" [(ngModel)]="is_audit" formControlName="is_audit"
+                [ngClass]="{ 'is-invalid': submitted && f.is_audit.errors }" required class="form-control input-lg"
+                id="is_audit">
+                <option [ngValue]="null" disabled [selected]="true">select Audit status...</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+              <div *ngIf="submitted && f.is_audit.errors" class="invalid-feedback">
+                <div *ngIf="f.is_audit.errors.required">Audit Status is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Auditor Name</b></label>
+          <input type="text" class="form-control rounded-border" name="auditor_name" [(ngModel)]="auditor_name"
+            formControlName="auditor_name" aria-describedby="auditor_nameHelp" placeholder="Write Auditor name ..."
+            [ngClass]="{ 'is-invalid': submitted && f.auditor_name.errors }">
+          <div *ngIf="submitted && f.auditor_name.errors" class="invalid-feedback">
+            <div *ngIf="f.auditor_name.errors.required"> Auditor Name is required</div>
+          </div>
+        </div>
+        <br>
+
+
+        <div class="form-group  pl-5 pr-5 showDetails">
+          <label><b>Remarks</b></label>
+          <input type="text" class="form-control rounded-border" name="remarks" [(ngModel)]="remarks"
+            aria-describedby="remarksHelp" placeholder="Write remarks ..." formControlName="remarks"
+            [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" />
+
+        </div>
+        <br>
+        <div class="col-sm pl-5 pr-5 rounded-border">
+          <h6 class="mt-4 mt-sm-0"><b> Roll Date</b></h6>
+          <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="date" formControlName="date"
+            [ngClass]="{ 'is-invalid': submitted && f.date.errors }" required
+            placeholder="Click to select Left Date..."></ng2-flatpickr>
+        </div>
+        <br>
+
+
+        <br>
+
+        <button id="btn-s-o" type="submit" class="btn btn btn-outline-primary btn-round btn btn-dark"
+          (click)="AddRoll()" placeholder="ADD">ADD</button>
+
+
+      </form>
+    </div>
+  </div>
+</div>

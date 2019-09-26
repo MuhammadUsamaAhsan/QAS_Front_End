@@ -1,0 +1,52 @@
+<h2 class="heading text-center  text-info"><b>Packing &nbsp;  Detail</b></h2>
+
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped table-bordered table-lg  row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" *ngIf="showTable">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Quantity</th>
+                    <th>Cartons</th>
+                    <th style="width:90px  !important">order_no</th>
+
+                    <th>Edit</th>
+                    <!-- <th>Delete</th>  -->
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of packing">
+                    <td>{{item.id}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.cartons}}</td>
+                    <td>{{item.order_no}}</td>
+
+
+                    <td><a [routerLink]="['/packing/edit-packing',{id:item.id,generic_header_id:item.generic_header_id } ] " class="btn  btn-just-icon btn-round btn-light ">Edit</a></td>
+                    <!-- <td><button id="delete" class="btn  btn-just-icon btn-round btn-light" (click)="k()">Delete</button></td>  -->
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+        </div>
+    </ng-template>
+
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>

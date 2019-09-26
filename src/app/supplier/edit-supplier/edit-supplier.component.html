@@ -1,0 +1,73 @@
+
+<a routerLink="/supplier/view-supplier" id="back" class="btn  btn-just-icon btn-round btn-info pl-4 pr-4  ">Back</a>
+
+
+<div class="col-x1   "  id="supplier" >
+    <h4 class="mt-4 mt-md-0 text-info" id="h4-supplier"  ><strong>Please Update Supplier's Data</strong></h4>
+    <div class="card  "  id="s1" *ngIf="suppliers_list_"  >
+      <div class="card-body bg-light "   >
+        <form >
+          <div class="form-group  pl-5 pr-5"  >
+            <label ><b>Supplier name</b></label>
+            <input type="text"  class="form-control rounded-border" for="suppliers_list_" name="name"  [(ngModel)]="suppliers_list_.name"  aria-describedby="usernameHelp" placeholder="Enter user name...">
+          </div>
+
+          <br>
+          <div class="form-group   pl-5 pr-5"  >
+              <label ><b>First name</b></label>
+              <input type="text" class="form-control rounded-border" name="first_name" for="suppliers_list_" [(ngModel)]="suppliers_list_.first_name"  aria-describedby="firstnameHelp" placeholder="Enter first name...">
+            </div>
+            <br>
+
+            <div class="form-group  pl-5 pr-5"  >
+                <label ><b>Last name</b></label>
+                <input type="text" class="form-control rounded-border" name="last_name" for="suppliers_list_" [(ngModel)]="suppliers_list_.last_name"  aria-describedby="lastnameHelp" placeholder="Enter last name...">
+              </div>
+              <br>
+              <div class="form-group  pl-5 pr-5" >
+                  <label ><b>Address</b></label>
+                  <input type="text "  name="address" for="suppliers_list_"  [(ngModel)]="suppliers_list_.address"  class="form-control rounded-border"  aria-describedby="addressHelp" placeholder="Enter adress...">
+                </div>
+                <br>
+
+
+                <div class="form-group   pl-5 pr-5"  >
+                    <label ><b>Phone</b></label>
+                    <input type="phone" prefix="+92(42)" mask="  0000000" [showMaskTyped] = "true" name="phone" for="suppliers_list_" [(ngModel)]="suppliers_list_.phone"   class="form-control rounded-border" aria-describedby="phoneHelp" placeholder="Enter phone...">
+                  </div>
+                  <br>
+
+                      <div class="form-group  pl-5 pr-5"  >
+                          <label ><b>Email</b></label>
+                          <input type="email"  class="form-control rounded-border" name="email"  [(ngModel)]="suppliers_list_.email"  for="suppliers_list_"   aria-describedby="emailHelp" placeholder="abc@gmail.com">
+                        </div>
+                        <br>
+
+                          <div class="col-sm-12  pl-5 pr-5"  >
+                              <label class="control-label" for="Country" ><b>Country</b></label>
+                              <select    name="country"  for="suppliers_list_"  [(ngModel)]="suppliers_list_.country_id"   class="form-control input-lg"  id="country"  >
+                                <option *ngFor="let c of countries "  value={{c.id}}>{{c.name}}</option>
+                              </select>
+                            </div>
+                            <br>
+                            <br>
+                           <button (click)="updateSupplier()"  class="btn btn btn-outline-primary btn-round btn btn-success  "  id="btn-supplier" placeholder="Update">UPDATE   </button>
+                     </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+                Click me!
+            </button> -->
+        </div>
+    </ng-template>
+  
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+  </div>

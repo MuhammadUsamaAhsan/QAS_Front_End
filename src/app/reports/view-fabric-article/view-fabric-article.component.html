@@ -1,0 +1,161 @@
+<h2 class="heading text-center text-info" ><b>No 0f Articles by Supplier</b></h2>
+<!-- <button type="button" id="btn-report" (click)="printReport()"  class=" btn btn-info " placeholder="view_print">View Print</button> -->
+
+
+<div class="card"  >
+
+    <div class="row" style="height: 90px;">
+        <div class="col-4">
+            <div class="col-sm pl-5 rounded-border" style="    margin-top: 6%;">
+                <label class="pr-3"   style="float:left; margin-top: 6px"><b>Start Date</b></label>
+
+
+              <div class="row">
+                  <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="start_date"   required placeholder="Select Start Date..."></ng2-flatpickr>
+             </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="col-sm   rounded-border" style="    margin-top: 6%;">
+                <label class="pr-3"    style="float:left; margin-top: 6px"><b>End Date</b></label>
+
+
+              <div class="row">
+                  <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="end_date"   required placeholder="Select End Date..."></ng2-flatpickr>
+             </div>
+            </div>
+
+        </div>
+
+        <div class="col-3 mt-2">
+            <div class="col-sm   rounded-border" style="    margin-top: 5%;">
+                <label class="pr-3"    style="float:left; margin-top: 6px"><b>Month</b></label>
+
+                <div class="row">
+              <ng-select [items]="months" bindLabel="name" (change)="viewNoOfArticlesMonthly()" placeholder="Select Month"
+
+                      bindValue="id" [(ngModel)]="month" required>
+              </ng-select>
+
+            </div>
+            </div>
+
+        </div>
+
+        <div class="col-1 " style="    margin-top: 1.9%;">
+            <button type="button" id="btn-view" (click)="viewGraph()"   class=" btn btn-info  " placeholder="view">View</button>
+
+        </div>
+</div>
+
+</div>
+<br>
+
+<div *ngIf="ShowError">
+  <strong> <p  style="color: rgba(226, 41, 41, 0.89);padding-top:5%;padding-left: 40%">No data found</p></strong>
+ </div>
+
+
+
+    <div class="card" [hidden]="!hidden">
+<!-- <div class="card"  *ngIf="hidden"> -->
+  <div class="row pt-3 pl-2">
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body">
+          <canvas id="bar-chart" ></canvas>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-4 pr-3" >
+      <div class="card pr-3">
+
+
+
+<table class="table table-striped table-bordered table-sm  row-border hover "  *ngIf="showTable"  >
+  <thead>
+
+  <tr >
+      <th align="center">Supplier</th>
+      <th align="center">No_of_Articles</th>
+
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of count" >
+      <td align="center">{{item.supplier}}</td>
+       <td align="center">{{item.no_of_articles | number}}</td>
+
+
+  </tr>
+
+  </tbody>
+  <tr>
+
+      <td colspan="1" align="center" style="background-color:white"><b>Total</b></td>
+      <td colspan="1" align="center" style="background-color:white" ><b>{{total | number}}</b></td>
+  </tr>
+
+ </table>
+        </div>
+
+      </div>
+
+  </div>
+  </div>
+
+  <br>
+
+  <h2 class="heading text-center text-info" ><b>Articles</b></h2>
+
+<div class="card pr-5" >
+  <div class="card-body pr-5" > <br>
+    <br>
+
+    <table class="table table-striped table-bordered   row-border hover " datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" *ngIf="showTable"  >
+        <thead>
+
+        <tr >
+            <th>Fabric_id</th>
+            <th>Fabric_code</th>
+            <th>Supplier</th>
+           <th>Edit</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of fabrics" >
+            <td>{{item.id}}</td>
+             <td>{{item.fabric_code}}</td>
+             <td>{{item.supplier}}</td>
+             <td><a [routerLink]="['/fabric/edit-fabric',{id:item.id } ] "  class="btn  btn-just-icon btn-round btn-light ">Edit</a></td>
+
+        </tr>
+        </tbody>
+      </table>
+
+  </div>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>
+
+
+
+
+

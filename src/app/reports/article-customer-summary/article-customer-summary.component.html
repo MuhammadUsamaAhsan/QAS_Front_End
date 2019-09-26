@@ -1,0 +1,91 @@
+
+
+    <h2 class=" heading text-center text-info"  ><b>Article Wise Customer Summary</b></h2>
+    <div class="card form-group"   id="u1">
+      <div class="card-body bg-light" >
+          <div class="row " style="float:center;padding-left: 2% " >
+
+          <div class="col-sm-4">
+            <div class="form-row">
+
+                <label class="" for="Fabric"   style="float:left; margin-top: 6px"><b>Article</b></label>
+              <div class="col-md-10">
+
+                 <ng-select  [items]="fabric_"  bindLabel="fabric_code"
+                 placeholder="Select article" bindValue="fabric_code"  [(ngModel)]="fabric_code" required   >
+                 </ng-select>
+
+             </div>
+           </div>
+        </div>
+
+
+
+
+        <div class="col-sm-3">
+
+            <div class="col-sm  rounded-border">
+                <label class="pr-3"   style="float:left; margin-top: 6px"><b>Start Date</b></label>
+
+                    <div class="row ">
+
+
+                  <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="start_date"   required placeholder= "select Start Date..."></ng2-flatpickr>
+             </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="col-sm  rounded-border">
+                <label class="pr-3"   style="float:left; margin-top: 6px"><b>End Date</b></label>
+
+              <div class="row">
+                  <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="end_date"   required placeholder="select End Date..."></ng2-flatpickr>
+             </div>
+            </div>
+        </div>
+
+
+     <div class=" col "  >
+         <button type="button" id="btn-report" (click)="ViewChart()"  class=" btn btn-info  pr-5 ml-5" placeholder="view">View</button>
+      </div>
+
+
+      </div>
+    </div>
+
+
+    <div class="card" [hidden]="!hidden">
+    <!-- <div class="row" *ngIf="hidden" > -->
+
+
+      <div class="col-xl-10">
+
+          <div class="card ml-5">
+            <div class="card-body">
+              <canvas id="bar-chart" ></canvas>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="my-container">
+      <ng-template #customLoadingTemplate>
+          <div class="custom-class">
+              <h4 style="color: gray">
+                  Loading...
+              </h4>
+              <!-- <button (click)="showAlert()">
+                  Click me!
+              </button> -->
+          </div>
+      </ng-template>
+
+      <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+    </div>
+
+    <div *ngIf="ShowError">
+      <strong> <p  style="color: rgba(226, 41, 41, 0.89);padding-top:5%;padding-left: 40%">No data found</p></strong>
+     </div>
+
+

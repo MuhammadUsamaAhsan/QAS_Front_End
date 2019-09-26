@@ -1,0 +1,253 @@
+<a routerLink="/manage-orders/view-order" id="back" class="btn  btn-just-icon btn-round btn-info pl-4 pr-4  ">Back</a>
+
+<div class="col-x1" id="supplier-order"  *ngIf="orders_">
+  <h4 class=" heading mt-xl-0 text-info" id="h4-s-o"><strong>Please Update order's Data</strong></h4>
+  <div class="card" id="s-o">
+    <div class="card-body bg-light">
+      <form>
+
+        <!-- Button trigger modal -->
+
+        <div class="row  pl-5">
+
+          <div class="col-sm-11">
+            <div class="row-5">
+              <label class="control-label" for="orders"><b>Fabric Code</b></label>
+            </div>
+            <div class="row">
+              <div class="col-sm-11">
+                <!-- <select   name="fabric_code" for="orders" [(ngModel)]="orders_.fabric_id" required
+                  class="form-control input-lg" id="fabric">
+                  <option *ngFor="let f of fabrics_list" value={{f.id}}>{{f.fabric_code}}</option>
+                </select> -->
+
+                <ng-select  [items]="fabrics_list"  bindLabel="fabric_code"
+                 placeholder="Select article" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="orders_.fabric_id" required   >
+                </ng-select>
+
+              </div>
+              <div class="col-sm-1">
+                <button type="button" id="btn-order" class="btn btn-primary  btn-primary glyphicon glyphicon-plus"
+                  value="button" data-toggle="modal" data-target="#exampleModal">
+                  Add
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Fabric</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group  pl-5 pr-5 " >
+                      <label ><b>Fabric Code</b></label>
+                      <input type="text" name="fabric_code1" class="form-control rounded-border" placeholder="please enter fabric code" for="fabrics" [value]="fabric_code1" (input)="fabric_code1 = $event.target.value" required>
+                  </div>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group  pl-5 pr-5 " >
+                        <label class="control-label" for="Fabric"  ><b>Supplier</b></label>
+
+                         <select *ngIf="suppliers_list"  name="supplier_id" [value]="supplier_id" (input)="supplier_id = $event.target.value"  required
+                             class="form-control input-lg" id="supplier" >
+                            <option [ngValue]="null" disabled [selected]="true">Select supplier...</option>
+                            <option *ngFor="let s of suppliers" value={{s.id}}>{{s.name}}</option>
+                         </select>
+                  </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" (click)="AddNewFabric()" class="btn btn-primary">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="row  pl-5">
+
+          <div class="col-sm-11">
+            <div class="row-5">
+              <label class="control-label" for="Order"><b>Order No</b></label>
+            </div>
+            <div class="row">
+              <div class="col-sm-11">
+                <!-- <select  name="order_no" for="orders" [(ngModel)]="orders_.order_id" class="form-control input-lg"
+                  id="order">
+                  <option *ngFor="let u of orders_list" value={{u.id}}>{{u.order_no}}</option>
+                </select> -->
+
+                <ng-select  [items]="orders_list"  bindLabel="order_no"
+                 placeholder="Select article" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="orders_.order_id" required   >
+                </ng-select>
+
+              </div>
+              <div class="col-sm-1">
+                <button type="button" id="btn-order" class="btn btn-primary   btn-primary glyphicon glyphicon-plus"
+                  value="button" data-toggle="modal" data-target="#exampleModal1">
+                  Add
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Order</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group  pl-5 pr-5 ">
+                    <label><b>Order No</b></label>
+                    <input type="text" class="form-control rounded-border" aria-describedby="quantityHelp" for="neworder" [value]="order_no1" (input)="order_no1 = $event.target.value"
+                      placeholder="Enter Order no..">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" (click)="AddNewOrder()" class="btn btn-primary">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <!-- Modal -->
+
+
+        <div class="row  pl-5">
+
+          <div class="col-sm-12">
+            <div class="row-6">
+              <label class="control-label" for="Fabric"><b>Supplier</b></label>
+            </div>
+            <div class="row">
+              <div class="col-sm-11">
+                <!-- <select   name="supplier" for="orders" [(ngModel)]="orders_.supplier_id"  required
+                  class="form-control input-lg" id="supplier">
+                  <option *ngFor="let o of suppliers_list" value={{o.id}}>{{o.name}}</option>
+                </select> -->
+                <ng-select  [items]="suppliers_list"  bindLabel="name"
+                 placeholder="Select Supplier" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="orders_.supplier_id" required   >
+                 </ng-select>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+        <br>
+
+
+
+        <div class="form-group  pl-5 pr-5 " >
+          <label><b>Quantity</b></label>
+          <input type="text"   class="form-control rounded-border" name="quantity"
+            [(ngModel)]="orders_.quantity" aria-describedby="quantityHelp" placeholder="Enter quantity .." required>
+        </div>
+        <br>
+        <div class="form-group  pl-5 pr-5 " >
+          <label ><b>packing list id</b></label>
+           <input type="text"  class="form-control rounded-border" [ngModelOptions]="{standalone: true}" aria-describedby="packing_list_idHelp" placeholder="Enter  packing_list_id .." [(ngModel)]="orders_.packing_list_id"  required>
+
+           </div>
+            <br>
+
+            <div class="form-group  pl-5 pr-5 " >
+              <label ><b>Customer</b></label>
+               <input type="text"  class="form-control rounded-border" [ngModelOptions]="{standalone: true}" aria-describedby="packing_list_idHelp" placeholder="Enter  customer .." [(ngModel)]="orders_.customer"  required>
+
+               </div>
+                <br>
+            <div class="form-group  pl-5 pr-5 " >
+                    <label ><b>Customer id</b></label>
+                    <ng-select  [items]="customers"  bindLabel="customer"
+                    placeholder="Select customer" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="orders_.customer_id" required   >
+                   </ng-select>
+              </div>
+               <br>
+
+                <div class="form-group  pl-5 pr-5 " >
+                  <label ><b>Cuttable Width Standard </b></label>
+                   <input type="text"  class="form-control rounded-border" [ngModelOptions]="{standalone: true}" aria-describedby="cuttable_width_standardHelp" placeholder="Enter  cuttable_width_standard .." [(ngModel)]="orders_.cuttable_width_standard"  required>
+
+                   </div>
+                    <br>
+
+        <div class="form-group  pl-5 pr-5" >
+          <label><b>Average Shipment Points</b></label>
+          <input type="text" class="form-control rounded-border" name="average_points" for="orders"
+            [(ngModel)]="orders_.average_points" aria-describedby="avgHelp" placeholder="Enter Average Points..." required>
+        </div>
+        <br>
+
+        <!-- <div class="form-group  pl-5 pr-5" >
+          <label><b>Avearge Miss 4 points</b></label>
+          <input type="text" class="form-control rounded-border" name="average_miss_4_points" for="orders"
+            [(ngModel)]="orders_.average_miss_4_points" aria-describedby="avg4Help"
+            placeholder="Enter Average Miss 4 Points..." required>
+        </div>
+        <br> -->
+        <div class="form-group  pl-5 pr-5" >
+          <label><b>B-grade Quantity</b></label>
+          <input type="text" mask="9999999" class="form-control rounded-border" for="orders" name="b_grade_qty"
+            [(ngModel)]="orders_.b_grade_qty" aria-describedby="bgradeHelp" placeholder="Enter B-grade fabric ..." required>
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5" >
+          <label><b>A-grade Quantity</b></label>
+          <input type="text" mask="9999999" class="form-control rounded-border" name="a_grade_qty"
+            [(ngModel)]="orders_.a_grade_qty" aria-describedby="agradeHelp" placeholder="Enter A-grade fabric ..." required>
+        </div>
+        <br>
+
+        <div class="form-group  pl-5 pr-5 " >
+          <label><b>Remarks</b></label>
+          <input type="text" class="form-control rounded-border" name="remarks" for="orders" [(ngModel)]="orders_.remarks"
+            aria-describedby="addressHelp" placeholder="Write remarks ..." required>
+        </div>
+        <br>
+
+        <button id="btn-s-o" (click)="updateOrder()" class="btn btn btn-outline-primary btn-round btn btn-dark"
+          placeholder="Update">UPDATE</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>

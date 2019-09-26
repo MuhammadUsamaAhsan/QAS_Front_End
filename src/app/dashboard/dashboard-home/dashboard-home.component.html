@@ -1,0 +1,231 @@
+<h2 class=" heading text-center text-info" style="text-align: center;margin-bottom: -2%"> <strong>Dashboard</strong></h2>
+<div class="row">
+    <button id="pptx" class="btn  btn-just-icon  btn btn-outline-success" (click)="click()"><b>Powerpoint</b></button>
+
+</div>
+<br>
+
+
+<div class="card">
+
+    <div class="row" style="height: 90px;">
+        <div class="col-4">
+            <div class="col-sm pl-5 rounded-border" style="    margin-top: 6%;">
+                <label class="pr-3" style="float:left; margin-top: 6px"><b>Start Date</b></label>
+
+
+                <div class="row">
+                    <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="start_date" required placeholder="Select Start Date..."></ng2-flatpickr>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="col-sm   rounded-border" style="    margin-top: 6%;">
+                <label class="pr-3" style="float:left; margin-top: 6px"><b>End Date</b></label>
+
+
+                <div class="row">
+                    <ng2-flatpickr [config]="date1" name="date" [(ngModel)]="end_date" required placeholder="Select End Date..."></ng2-flatpickr>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-3 mt-2">
+            <div class="col-sm   rounded-border" style="    margin-top: 5%;">
+                <label class="pr-3" style="float:left; margin-top: 6px"><b>Month</b></label>
+
+                <div class="row">
+                    <ng-select [items]="months" bindLabel="name" (change)="ReportDashboard()" placeholder="Select Month" bindValue="id" [(ngModel)]="month" required>
+                    </ng-select>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-1 " style="    margin-top: 1.9%;">
+            <button type="button" id="btn-view" (click)="viewGraph()" class=" btn btn-info  " placeholder="view">View</button>
+
+        </div>
+    </div>
+
+</div>
+<br>
+
+<div class="row">
+    <div class="col-xl-9" id="top10article">
+        <!-- <h6 class="heading text-center text-info" ><b>BAR </b>    <b>  CHART</b></h6> -->
+        <div class="card">
+            <div class="card-body">
+                <canvas id="bar-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <div class="card">
+            <div class="card-body ">
+
+                <table class="table table-striped table-bordered datatable table-sm  row-border hover " *ngIf="showTable">
+                    <thead>
+
+                        <tr>
+                            <th style="width: 5% !important">Articles</th>
+                            <th>Meters</th>
+                            <th> %</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of top10articles">
+                            <td>{{item.fabric_code}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.perc}}</td>
+
+                        </tr>
+
+                    </tbody>
+                    <tr>
+
+                        <td colspan="1" align="center" style="background-color:white"><b>Total</b></td>
+                        <td colspan="2" align="center" style="background-color:white"><b>{{top10total}}</b></td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-xl-9">
+        <!-- <h6 class="heading text-center text-info" ><b>BAR </b>    <b>  CHART</b></h6> -->
+        <div class="card">
+            <div class="card-body">
+                <canvas id="bar-charts"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped table-bordered table-sm  row-border hover " *ngIf="showTable">
+                    <thead>
+
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Meters</th>
+                            <th> %</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of quantities">
+                            <td>{{item.supplier}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.perc}}</td>
+
+                        </tr>
+
+                    </tbody>
+                    <tr>
+
+                        <td colspan="1" align="center" style="background-color:white"><b>Total</b></td>
+                        <td colspan="2" align="center" style="background-color:white"><b>{{supplierTotal}}</b></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+
+    <div class="col-xl-9">
+
+        <div class="card">
+            <div class="card-body">
+                <canvas id="bar-chart3"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped table-bordered table-sm  row-border hover " *ngIf="showTable">
+                    <thead>
+
+                        <tr>
+                            <th>Supplier</th>
+                            <th>No_of_Articles</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of count">
+                            <td align="center">{{item.supplier}}</td>
+                            <td align="center">{{item.no_of_articles}}</td>
+
+
+                        </tr>
+
+                    </tbody>
+                    <tr>
+
+                        <td colspan="1" align="center" style="background-color:white"><b>Total</b></td>
+                        <td colspan="1" align="center" style="background-color:white"><b>{{total_}}</b></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-xl-12">
+        <!-- <h6 class="heading text-center text-info" ><b>BAR </b>    <b>  CHART</b></h6> -->
+        <div class="card">
+            <div class="card-body">
+                <canvas id="line-chart1"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-xl-12">
+        <!-- <h4 class="mt-4">Line Chart</h4> -->
+        <div class="card">
+            <div class="card-body">
+                <canvas id="line-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+                  Click me!
+              </button> -->
+        </div>
+    </ng-template>
+
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>

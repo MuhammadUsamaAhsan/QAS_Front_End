@@ -1,0 +1,72 @@
+<h2 class="heading text-center text-info" ><b>Supplier Orders</b></h2>
+
+<div class="card">
+  <div class="card-body" > <br>
+    <br>
+
+      <table class="table table-striped table-bordered table-lg  row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" *ngIf="showTable"  >
+  <thead>
+
+  <tr >
+      <th>Id</th>
+      <th style="width: 200px !important">Supplier</th>
+      <th style="width: 210px !important">Fabric_Code</th>
+      <th>Order_no</th>
+      <!-- <th>User_name</th> -->
+      <th>Quantity(meter)</th>
+      <th style="width: 210px !important">Customer</th>
+      <th style="width: 210px !important">Packing_List_Id</th>
+      <th>Cuttable_Width_Standard</th>
+      <!-- <th>No_of_Defects</th> -->
+      <th>Average_Shipment_Points</th>
+      <!-- <th>Average_miss_4_points</th> -->
+      <th>A_grade</th>
+      <th>B_grade</th>
+      <th style="width: 300px !important">Remarks</th>
+      <th>Edit</th>
+      <!-- <th>Delete</th> -->
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of orders" >
+      <!-- <td>{{item.id}}</td> -->
+      <td><a  [routerLink]="['/lab-testing/three-home-laundry',{id_:item.id } ] "     >{{item.id}}</a></td>
+
+      <td>{{item.supplier}}</td>
+      <td>{{item.fabric_code}}</td>
+      <td>{{item.order_no}}</td>
+      <!-- <td>{{item.user_name}}</td> -->
+      <td>{{item.quantity | number }}</td>
+      <td>{{item.customer}}</td>
+      <td>{{item.packing_list_id}}</td>
+      <td>{{item.cuttable_width_standard}}</td>
+      <!-- <td>{{item.no_of_defects}}</td> -->
+      <td>{{item.average_points}}</td>
+      <!-- <td>{{item.average_miss_4_points}}</td> -->
+      <td>{{item.a_grade_qty}}</td>
+      <td>{{item.b_grade_qty}}</td>
+       <td>{{item.remarks}}</td>
+       <td><a [routerLink]="['/manage-orders/edit-order',{id:item.id } ] "  class="btn  btn-just-icon btn-round btn-light ">Edit</a></td>
+       <!-- <td><button id="delete" class="btn  btn-just-icon btn-round btn-light" (click)="k()">Delete</button></td>  -->
+
+  </tr>
+
+  </tbody>
+</table>
+
+  </div>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+          <h4 style="color: gray">
+              Loading...
+          </h4>
+          <!-- <button (click)="showAlert()">
+              Click me!
+          </button> -->
+      </div>
+  </ng-template>
+
+  <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+</div>

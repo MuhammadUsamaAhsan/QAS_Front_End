@@ -1,0 +1,163 @@
+
+<h2 class="heading text-center text-info"  ><b>Supplier wise Fabric Summary</b></h2>
+<br>
+<br>
+
+<!-- <button type="button" id="btn-report" (click)="printReport()"  class=" btn btn-info " placeholder="view_print">View Print</button> -->
+
+
+<div class="card"  >
+
+    <div class="row" style="height: 90px;">
+        <div class="col-4">
+            <div class="col-sm pl-5 rounded-border" style="    margin-top: 6%;">
+                <label class="pr-3"   style="float:left; margin-top: 6px"><b>Start Date</b></label>
+
+
+              <div class="row">
+                  <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="start_date"   required placeholder="Select Start Date..."></ng2-flatpickr>
+             </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="col-sm   rounded-border" style="    margin-top: 6%;">
+                <label class="pr-3"    style="float:left; margin-top: 6px"><b>End Date</b></label>
+
+
+              <div class="row">
+                  <ng2-flatpickr  [config]="date1"  name="date" [(ngModel)]="end_date"   required placeholder="Select End Date..."></ng2-flatpickr>
+             </div>
+            </div>
+
+        </div>
+
+        <div class="col-3 mt-2">
+            <div class="col-sm   rounded-border" style="    margin-top: 5%;">
+                <label class="pr-3"    style="float:left; margin-top: 6px"><b>Month</b></label>
+
+                <div class="row">
+              <ng-select [items]="months" bindLabel="name" (change)="FetchSupplierQuantityMonthly()" placeholder="Select Month"
+
+                      bindValue="id" [(ngModel)]="month" required>
+              </ng-select>
+
+            </div>
+            </div>
+
+        </div>
+
+        <div class="col-1 " style="    margin-top: 1.9%;">
+            <button type="button" id="btn-view" (click)="viewGraph()"   class=" btn btn-info  " placeholder="view">View</button>
+
+        </div>
+</div>
+
+</div>
+<br>
+
+<div *ngIf="ShowError">
+  <strong> <p  style="color: rgba(226, 41, 41, 0.89);padding-top:5%;padding-left: 40%">No data found</p></strong>
+ </div>
+
+<div class="card" [hidden]="!hidden" >
+
+    <div class="row pt-3 pl-2" >
+      <div class="col-xl-8 " style="height:60%">
+
+        <div class="card">
+          <div class="card-body">
+            <canvas id="bar-chart" ></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4 pr-3" >
+            <div class="card pr-3">
+
+
+    <table class="table table-striped table-bordered table-sm  row-border hover "  *ngIf="showTable"  >
+        <thead>
+
+        <tr >
+            <th>Supplier</th>
+            <th>Meters</th>
+            <th>  %</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of quantities" >
+            <td>{{item.supplier}}</td>
+             <td>{{item.quantity | number}}</td>
+             <td>{{item.perc}}</td>
+
+        </tr>
+
+        </tbody>
+        <tr>
+
+            <td colspan="1" align="center" style="background-color:white"><b>Total</b></td>
+            <td colspan="2" align="center" style="background-color:white" ><b>{{total | number}}</b></td>
+        </tr>
+
+       </table>
+              </div>
+
+            </div>
+
+    </div>
+  </div>
+<br>
+<br>
+
+<h2 class="heading text-center text-info"  ><b>Supplier Fabric</b></h2>
+<br>
+<br>
+
+<div class="card " >
+  <div class="card-body " >
+
+    <table class="table table-striped table-bordered table-lg  row-border hover " datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" *ngIf="showTable"  >
+        <thead>
+
+        <tr >
+            <th style="width: 250px !important">Supplier</th>
+            <th style="width: 250px !important">Fabric Code</th>
+            <th>Quantity</th>
+            <th>Order No</th>
+            <th style="width: 150px !important">Points Score</th>
+            <th>Grade</th>
+            <th style="width: 220px !important">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of suppliers" >
+            <td>{{item.supplier}}</td>
+             <td>{{item.fabric_code}}</td>
+             <td>{{item.quantity | number}}</td>
+             <td>{{item.order_no}}</td>
+             <td>{{item.points_score}}</td>
+             <td>{{item.grade}}</td>
+             <td >{{item.date}}</td>
+        </tr>
+        </tbody>
+       </table>
+
+       </div>
+  </div>
+
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+                Click me!
+            </button> -->
+        </div>
+    </ng-template>
+
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+  </div>
+
