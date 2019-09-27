@@ -1,3 +1,4 @@
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { DataTablesModule } from 'angular-datatables';
@@ -16,6 +17,8 @@ import {NgxMaskModule} from 'ngx-mask';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
+//import { NgxCheckboxModule } from 'ngx-checkbox';
+//import { MDBBootstrapModule} from 'angular-bootstrap-md';
 
 
 
@@ -31,9 +34,13 @@ import { NgxLoadingModule } from 'ngx-loading';
     FormsModule,
     ReactiveFormsModule,
     NgDatepickerModule,
-    NgxLoadingModule.forRoot({})
+    NgxLoadingModule.forRoot({}),
+    //NgxCheckboxModule
     
     
+
+
+
   ],
   declarations: [AddComponent, EditComponent,  ViewComponent]
 })

@@ -7,12 +7,13 @@ import { DatePipe } from '@angular/common';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 import { SomeSharedService } from '../../globals/globals.component';
 import { AuthenticationService } from '../../Services/authentication.service';
+import { GenericHeaderService } from './../../header/generic-header.service';
 
 @Component({
   selector: 'app-add-accessory',
   templateUrl: './add-accessory.component.html',
   styleUrls: ['./add-accessory.component.scss'],
-  providers: [SomeSharedService]
+  providers: [SomeSharedService,GenericHeaderService]
 })
 export class AddAccessoryComponent implements OnInit {
 
@@ -41,9 +42,9 @@ export class AddAccessoryComponent implements OnInit {
   lines:any=[];
   accessories:any=[];
 
-  line_no:any;
-  unit:any;
-  shift:any;
+  line_no:any='';
+  unit:any='';
+  shift:any='';
 
   user_name:any='';
   type:any='';
@@ -55,8 +56,10 @@ export class AddAccessoryComponent implements OnInit {
   supplier_id:any;
   generic_header_id:any;
 
+  hidden:boolean=true;
 
-  constructor(private http: HttpClient,private authenticationService: AuthenticationService, private router: Router, private formBuilder: FormBuilder, private datePipe: DatePipe, notifierService: NotifierService, private someSharedService: SomeSharedService) {
+
+  constructor(private http: HttpClient,private header:GenericHeaderService,private authenticationService: AuthenticationService, private router: Router, private formBuilder: FormBuilder, private datePipe: DatePipe, notifierService: NotifierService, private someSharedService: SomeSharedService) {
     this.notifier = notifierService;
   }
 
@@ -80,23 +83,23 @@ export class AddAccessoryComponent implements OnInit {
      // generic_header_id: ['', [Validators.required]]
     });
 
-
-
-
     this.initiatecalls();
 
   }
 
  async initiatecalls(){
 
- await this.getCustomers();
- await this.GetOrder();
- await this.GetUnits();
- await this.GetShifts();
- await this.GetLines();
+  this.loading=true;
 
- //await this.GetAccessories();
- this.GetSuppliers();
+  this.customers=await this.header.getCustomers();
+  this.lines=await this.header.GetLines();
+  this.shifts=await this.header.GetShifts();
+  this.units=await this.header.GetUnits();
+  this.supp_orders=await this.header.GetOrder();
+  this.suppliers=await this.header.GetSuppliers();
+
+  this.loading=false;
+
 
   }
 
@@ -119,100 +122,61 @@ export class AddAccessoryComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    //this.notifier.notify('success', 'Accessory  is added successfully!!');
-    // window.location.reload();
-    //this.router.navigate(['/manage-rolls/view-roll']);
 
   }
 
-  async getCustomers() {
+  async GetAccessories(wash_type:any){
 
-    this.loading=true;
+    this.accessories=await this.header.GetAccessories(wash_type);
+  }
 
-     const url = 'http://'+this.someSharedService.ip+'/api/Users/FetchAllCustomers';
-     let params=null;
-
-     let response=await this.authenticationService.send_call(url,params);
-
-     if(response['data']){
-       if(response['data']['_body']){
-         if(response['data']['_body'].length>0)
-         {
-           const a=JSON.parse(response['data']['_body']);
-           this.customers=a['customers'];
-
-
-          // console.log("Role:",this.Roles);
-
-         }
-         else{
-
-
-         }
-       }   else{
-
-
-         //console.log("_body empty");
-        // this.notifier.notify('error','No Data Found!!!');
-       }
-
-     }
-     else
-     {
-
-
-      // console.log("error in FecthAllDepartments:","No Data Found!!!");
-       //this.notifier.notify('error','No Data Found!!!');
-     }
-   }
-   async GetOrder() {
-
-     this.loading=false;
-     const url = 'http://'+this.someSharedService.ip+'/api/Roll_Detail/GetSupplierOrders';
-     let params=null;
-
-     let response=await this.authenticationService.send_call(url,params);
-
-     if(response['data']){
-       if(response['data']['_body']){
-         if(response['data']['_body'].length>0)
-         {
-           const a=JSON.parse(response['data']['_body']);
-           this.supp_orders=a['sup_orders'];
-
-          // console.log("Role:",this.Roles);
-         }
-         else{
-
-         }
-       }   else{
-
-         //console.log("_body empty");
-        // this.notifier.notify('error','No Data Found!!!');
-       }
-
-     }
-     else
-     {
-      // console.log("error in FecthAllDepartments:","No Data Found!!!");
-       //this.notifier.notify('error','No Data Found!!!');
-     }
-   }
 
    async CheckSaveGenericHeader(){
 
-   // this.loading=true;
+    this.loading=true;
+    if(this.shift=='' && this.line_no=='' && this.shift==''  && this.date==''){
+      this.notifier.notify('error','Please select all fields to save header');
+      this.loading=false;
+    }
+    else{
+      this.generic_header_id=await this.header.CheckSaveGenericHeader(this.unit_id,this.shift,this.line_no,this.user_id,this.type,this.date);
 
+      if(!isNaN(this.generic_header_id ) && this.generic_header_id!=0){
+            this.notifier.notify( 'success', 'Header saved successfully' );
+            this.loading=false;
+            this.hidden=false;
+            console.log("header_id", this.generic_header_id)
+        }
+        else {
+               this.notifier.notify('error','Header not saved,check server');
+               this.loading=false;
+              }
 
-      const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchHeaderId';
+    }
+
+    }
+
+    async AddAccessoryAndView(){
+
+      this.loading=true;
+
+      if (!this.registerForm.invalid) {
+
+      const url = 'http://'+this.someSharedService.ip+'/api/Accessories/AddManageAccessories';
       let params={
-        unit_id:this.unit_id,
-        shift:this.shift,
-        line:this.line_no,
-        user_id:this.user_id,
-        type:this.type,
-        //c_by:this.user_id,
-        date:this.datePipe.transform(this.date,"yyyy-MM-dd")
+
+      supplier_fabric_order_id:this.supplier_fabric_order_id,
+      local_nomination:this.nomination_local,
+      supplier_id:this.supplier_id,
+      uom:this.uom,
+      accessory_id:this.accessory_id,
+      quantity:this.quantity,
+     // date:this.datePipe.transform(this.date,"yyyy-MM-dd"),
+      remarks:this.remarks,
+      type:this.wash_type,
+      generic_header_id:this.generic_header_id,
+      user_id:this.user_id
+
       };
 
       let response=await this.authenticationService.send_call(url,params);
@@ -221,22 +185,22 @@ export class AddAccessoryComponent implements OnInit {
         if(response['data']['_body']){
           if(response['data']['_body'].length>0)
           {
-
             const a=JSON.parse(response['data']['_body']);
-            this.generic_header_id=a['header_id'];
-           if(a['header_id']!=0){
-             this.notifier.notify( 'success', 'Header saved successfully' );
-             this.loading=false;
-            console.log("header_id", this.generic_header_id)
+           if(a==1){
+            this.notifier.notify( 'success', 'Accessory Detail is added successfully' );
+            this.loading=false;
+            this.router.navigate(['/trim-and-sundries/view-accessories']);
            }
            // console.log("Role:",this.Roles);
 
           }
           else{
+            this.loading=false;
             //console.log("error: 0 records");
            // this.notifier.notify('error','No Data Found!!!');
           }
         }   else{
+          this.loading=false;
           //console.log("_body empty");
          // this.notifier.notify('error','No Data Found!!!');
         }
@@ -244,201 +208,19 @@ export class AddAccessoryComponent implements OnInit {
       }
       else
       {
+        this.loading=false;
        // console.log("error in FecthAllDepartments:","No Data Found!!!");
         //this.notifier.notify('error','No Data Found!!!');
       }
 
+     }
 
-
-
+    else{
+      this.loading=false;
+      this.notifier.notify('error','please select all required fields ');
     }
 
-   async GetUnits() {
-
-    const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllUnits';
-    let params=null;
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.units=a['unit_list'];
-
-
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
     }
-    else
-    {
-
-
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-  async GetShifts() {
-
-    const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllShift';
-    let params=null;
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.shifts=a['shift_list'];
-
-
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-  async GetLines() {
-
-    const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllLines';
-    let params=null;
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.lines=a['line_list'];
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-  async GetSuppliers() {
-
-    this.supplier_type='Accessories';
-
-    const url = 'http://'+this.someSharedService.ip+'/api/Suppliers/FetchAllSuppliers';
-    let params={
-      supplier_type:this.supplier_type
-    };
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.suppliers=a['suppliers'];
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-  async GetAccessories() {
-
-
-
-    const url = 'http://'+this.someSharedService.ip+'/api/Accessories/FetchAllAccessories';
-    let params={
-      wash_type:this.wash_type
-    };
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          this.loading=false;
-          const a=JSON.parse(response['data']['_body']);
-          this.accessories=a['accessories_list'];
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
 
 
   async AddAccessory(){
@@ -475,7 +257,9 @@ export class AddAccessoryComponent implements OnInit {
          if(a==1){
           this.notifier.notify( 'success', 'Accessory Detail is added successfully' );
           this.loading=false;
-          this.router.navigate(['/trim-and-sundries/view-accessories']);
+          this.registerForm.reset();
+          this.ClearFields();
+
          }
          // console.log("Role:",this.Roles);
 
@@ -503,8 +287,20 @@ export class AddAccessoryComponent implements OnInit {
 
   else{
     this.loading=false;
-    this.notifier.notify('error','Data not inserted ');
+    this.notifier.notify('error','please select all required fields ');
   }
+}
+
+ClearFields(){
+this.supplier_fabric_order_id='';
+this.nomination_local='';
+this.type='';
+this.quantity='';
+this.uom='';
+this.remarks='';
+this.accessory_id='';
+this.supplier_id='';
+
 }
 
 

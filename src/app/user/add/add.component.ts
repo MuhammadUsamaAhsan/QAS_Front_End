@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
 import { NotifierService } from 'angular-notifier';
@@ -9,6 +9,7 @@ import { FlatpickrOptions } from 'ng2-flatpickr';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
@@ -16,6 +17,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providers: [ SomeSharedService ]
 })
  export class AddComponent implements OnInit{
+
+ 
   private readonly notifier: NotifierService;
 
 
@@ -46,14 +49,24 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   private users=[];
   private suppliers=[];
   public UserRoles=[];
+  public modules:any=[];
   showTable:boolean=true;
   public loading :boolean=false;
+   expanded :boolean=false;
+   optionsSelect: any=[];
 
   public constructor(private formBuilder: FormBuilder,private http: Http, private datePipe: DatePipe,private someSharedService: SomeSharedService,private httpClient: HttpClient, private router: Router, notifierService: NotifierService, private authenticationService: AuthenticationService) {
     this.notifier = notifierService;
   }
 
-  ngOnInit(){
+ async ngOnInit(){
+  this.optionsSelect = [
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' },
+    { value: '3', label: 'Option 3' },
+    ];
+
+    //this.modules=await this.authenticationService.GetModuleList();
 
     this.FecthAllRoles();
     this.registerForm = this.formBuilder.group({
@@ -110,19 +123,34 @@ this.registerForm=this.formBuilder.group({
 
 
   }
+  showCheckboxes(){
+    var checkboxes = document.getElementById("checkboxes");
+    if (!this.expanded) {
+      checkboxes.style.display = "block";
+      this.expanded = true;
+    } else {
+      checkboxes.style.display = "none";
+      this.expanded = false;
+    }
+  }
+
+  onSetCheckBox() {
+    // Set 'checked' or 'no-checked'
+    this.myCB.setClick('checked');
+    }
 
   async FecthAllRoles() {
 
     this.loading=true;
    this.user_type_id=this.authenticationService.getRoleId();
-  
+
         const url = 'http://'+this.someSharedService.ip+'/api/Users/FetchAllUsertypes';
         let params={
           user_id:this.user_type_id
         };
 
         let response=await this.authenticationService.send_call(url,params);
-  
+
         if(response['data']){
           if(response['data']['_body']){
             if(response['data']['_body'].length>0)
@@ -131,7 +159,7 @@ this.registerForm=this.formBuilder.group({
               const a=JSON.parse(response['data']['_body']);
               this.UserRoles=a['userType'];
              // console.log("Role:",this.Roles);
-  
+
             }
             else{
               this.loading=false
@@ -143,7 +171,7 @@ this.registerForm=this.formBuilder.group({
             //console.log("_body empty");
            // this.notifier.notify('error','No Data Found!!!');
           }
-  
+
         }
         else
         {
@@ -151,8 +179,8 @@ this.registerForm=this.formBuilder.group({
          // console.log("error in FecthAllDepartments:","No Data Found!!!");
           //this.notifier.notify('error','No Data Found!!!');
         }
-  
-  
+
+
     }
 
 async AddUser(){
@@ -173,7 +201,7 @@ async AddUser(){
     password:this.password,
     joining_date:this.datePipe.transform(this.joining_date,"yyyy-MM-dd"),
     left_date:this.datePipe.transform(this.left_date,"yyyy-MM-dd"),
-    birth_date:this.datePipe.transform(this.birth_date,"yyyy-MM-dd"), 
+    birth_date:this.datePipe.transform(this.birth_date,"yyyy-MM-dd"),
     user_type_id:this.user_type_id
     };
 

@@ -64,7 +64,7 @@
 </div>
   <br>
 
-    <div class="card" >
+    <div class="card" *ngIf="!hidden">
       <div class="card-body bg-light">
         <!-- <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate> -->
         <form   [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
@@ -104,11 +104,34 @@
                 </div>
             <br>
 
+            <div class="row px-5">
+                <div class="col">
+                    <button id="btn-s-o" type="submit" class="btn btn-primary btn-block px-3"
+                    (click)="AddPacking()" placeholder="ADD">Submit    |    محفوظ کریں</button>
+                </div>
+                <div class="col">
+                    <button id="btn-s-o" type="submit" class="btn btn-info btn-block px-3"
+                    (click)="AddPackingAndView()" placeholder="ADD">Submit and View   | محفوظ کریں اور دیکھیں</button>
+                </div>
 
-          <button id="btn-s-o" type="submit" class="btn btn-primary btn-block px-4"
-            (click)="AddPacking()" placeholder="ADD">Submit    |    محفوظ کریں</button>
+                </div>
 
         </form>
       </div>
     </div>
+  </div>
+
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h4 style="color: gray">
+                Loading...
+            </h4>
+            <!-- <button (click)="showAlert()">
+                Click me!
+            </button> -->
+        </div>
+    </ng-template>
+
+    <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
   </div>

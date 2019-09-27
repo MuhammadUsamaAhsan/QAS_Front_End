@@ -64,7 +64,7 @@
 </div>
   <br>
 
-  <div class="card" *ngIf="accessories_detail">
+  <div class="card" *ngIf="accessories_detail && !hidden">
     <div class="card-body bg-light">
       <!-- <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate> -->
       <form >
@@ -73,10 +73,10 @@
           <label><b>Wash Type</b></label>
           <div class="row">
             <div class="col-sm-12">
-              <select name="grade" [(ngModel)]="accessories_detail.type" (change)="GetAccessories()"   required class="form-control input-lg">
+              <select name="grade" [(ngModel)]="accessories_detail.type" (change)="GetAccessories(accessories_detail.type)"   required class="form-control input-lg">
                 <!-- <option [ngValue]="null" disabled [selected]="true">Select wash type...</option> -->
-                <option value="Before">Before wash</option>
-                <option value="After">After wash</option>
+                <option value="B">Before wash</option>
+                <option value="A">After wash</option>
               </select>
             </div>
           </div>

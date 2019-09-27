@@ -108,8 +108,50 @@
                               </div>
                               <br>
                               <br>
-                                  <button type="submit" id="btn-user" (click)="AddUser()"  class="btn btn btn-outline-primary btn-round btn btn-dark" placeholder="ADD">ADD</button>
-           </form>
+
+
+                              <!-- <div>
+                                  <ngx-checkbox [iconClass]="'fa fa-check'" [checkedClass]="'checkbox-checked'" #myCheckbox> </ngx-checkbox>
+                                  <div class="button-row">
+                                      <button mat-raised-button color="info" (click)="onSetCheckBox()">Set clicked</button>
+                                  </div>
+                              </div> -->
+
+
+
+
+                               <button type="submit" id="btn-user" (click)="AddUser()"  class="btn btn btn-outline-primary btn-round btn btn-dark" placeholder="ADD">ADD</button>
+
+
+                              </form>
+
+                              <div class="row">
+                                  <div class="col-md-6">
+                                    <mdb-select [options]="optionsSelect" [multiple]="true" [highlightFirst]="false" placeholder="Choose your option"></mdb-select>
+                                    <label>Example label</label>
+                                  </div>
+                                </div>
+
+
+                              <!-- <form>
+                                  <div class="multiselect">
+                                    <div class="selectBox" (click)="showCheckboxes()">
+                                      <select>
+                                        <option>Select an option</option>
+                                      </select>
+                                      <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxes">
+                                      <label for="one">
+                                        <input type="checkbox" id="one" />First checkbox</label>
+                                      <label for="two">
+                                        <input type="checkbox" id="two" />Second checkbox</label>
+                                      <label for="three">
+                                        <input type="checkbox" id="three" />Third checkbox</label>
+                                    </div>
+                                  </div>
+                                </form> -->
+
       </div>
     </div>
   </div>
@@ -125,7 +167,7 @@
             </button> -->
         </div>
     </ng-template>
-  
+
     <ngx-loading [show]="loading" [config]="{  backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
   </div>
 

@@ -27,7 +27,7 @@ export class ViewPackingComponent implements OnInit {
         scrollY:400,
         paging:true,
         processing: true,
-        //order: ([0,'desc']),
+        order: ([0,'desc']),
 
         dom: 'Bfrtip',
         // Configure the buttons

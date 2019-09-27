@@ -1,8 +1,6 @@
 //import { DashboardHomeComponent } from './dashboard/dashboard-home/dashboard-home.component';
 import { DataTablesModule } from 'angular-datatables';
-
 import { FormsModule } from '@angular/forms';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -18,11 +16,9 @@ import { GlobalsComponent } from './globals/globals.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { HttpModule } from '@angular/http';
 import { NgxLoadingModule,ngxLoadingAnimationTypes } from 'ngx-loading';
-
+//import { NgxCheckboxModule } from 'ngx-checkbox';
+// import { MDBBootstrapModule } from 'angular-bootstrap-md';
 //import { Injectable } from '@angular/core';
-
-
-
 
 export const ip='localhost';
 
@@ -46,6 +42,9 @@ export const ip='localhost';
     AngularFontAwesomeModule,
     NgxLoadingModule.forRoot({animationType: ngxLoadingAnimationTypes.circleSwish,
       fullScreenBackdrop: true}),
+     // NgxCheckboxModule,
+    // MDBBootstrapModule,
+    
     NotifierModule.withConfig({
       position: {
 

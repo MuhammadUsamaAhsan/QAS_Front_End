@@ -51,14 +51,19 @@ export class EditPackingComponent implements OnInit {
 
     this.id = this.route.snapshot.params["id"];
     this.generic_header_id = this.route.snapshot.params["generic_header_id"];
-    this.initiatecalls();
-
-    this.FetchHeaderDetailById();
 
     console.log("id",this.id);
     console.log("header_id",this.generic_header_id);
-    await this.FetchPackingDetailById();
 
+   await this.initiatecalls();
+   await this.FetchHeaderDetailById();
+         this.FetchPackingDetailById();
+
+       //  this.header_details=await this.header.FetchHeaderDetailById(this.generic_header_id);
+        // this.binding_date=await this.header.FetchHeaderDetailById(this.generic_header_id);
+
+       //  console.log("header_details",this.header_details);
+    //  console.log("BINDINdate",this.binding_date);
 
   }
 
@@ -72,18 +77,26 @@ export class EditPackingComponent implements OnInit {
   };
 
   async initiatecalls(){
-    this.lines=await this.header.GetLines();
-    await this.GetOrder();
-   // await this.GetLines();
-    await this.GetShifts();
-    await this.GetUnits();
+    this.loading=true;
 
+    this.lines=await this.header.GetLines();
+    this.shifts=await this.header.GetShifts();
+    this.units=await this.header.GetUnits();
+    this.supp_orders=await this.header.GetOrder();
+
+    if(this.lines && this.shifts && this.units && this.supp_orders){
+      //this.loading=false;
+    }
+    else{
+      this.loading=false;
+      this.notifier.notify('error','Error! Check server');
+    }
 
      }
 
   async FetchPackingDetailById(){
 
-    this.loading=true;
+   // this.loading=true;
     const url = 'http://'+this.someSharedService.ip+'/api/ManagePacking/FetchAllManagePackingViaId';
     let params={
       id:this.id
@@ -97,11 +110,13 @@ export class EditPackingComponent implements OnInit {
         {
           const a=JSON.parse(response['data']['_body']);
           this.packing_details=a['manage_packing'][0];
-
+          this.loading=false;
 
          // console.log("Role:",this.Roles);
         }
         else{
+          this.loading=false;
+          this.notifier.notify('error','Data not fetched , check server');
         }
       }   else{
         //console.log("_body empty");
@@ -120,7 +135,7 @@ export class EditPackingComponent implements OnInit {
 
   async FetchHeaderDetailById(){
 
-    this.loading=true;
+   // this.loading=true;
     const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchGenericHeaderViaId';
     let params={
       id:this.generic_header_id
@@ -156,215 +171,23 @@ export class EditPackingComponent implements OnInit {
 
    }
 
-   async GetOrder() {
-
-    this.loading=false;
-    const url = 'http://'+this.someSharedService.ip+'/api/Roll_Detail/GetSupplierOrders';
-    let params=null;
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.supp_orders=a['sup_orders'];
-
-         // console.log("Role:",this.Roles);
-        }
-        else{
-
-        }
-      }   else{
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-
-  async GetUnits() {
-
-    const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllUnits';
-    let params=null;
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.units=a['unit_list'];
-
-
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-
-
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-  async GetShifts() {
-
-    const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllShift';
-    let params=null;
-
-    let response=await this.authenticationService.send_call(url,params);
-
-    if(response['data']){
-      if(response['data']['_body']){
-        if(response['data']['_body'].length>0)
-        {
-          const a=JSON.parse(response['data']['_body']);
-          this.shifts=a['shift_list'];
-
-
-         // console.log("Role:",this.Roles);
-
-        }
-        else{
-
-
-        }
-      }   else{
-
-
-        //console.log("_body empty");
-       // this.notifier.notify('error','No Data Found!!!');
-      }
-
-    }
-    else
-    {
-     // console.log("error in FecthAllDepartments:","No Data Found!!!");
-      //this.notifier.notify('error','No Data Found!!!');
-    }
-  }
-
-  // async GetLines() {
-
-  //   const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchAllLines';
-  //   let params=null;
-
-  //   let response=await this.authenticationService.send_call(url,params);
-
-  //   if(response['data']){
-  //     if(response['data']['_body']){
-  //       if(response['data']['_body'].length>0)
-  //       {
-  //         const a=JSON.parse(response['data']['_body']);
-  //         this.lines=a['line_list'];
-  //        // console.log("Role:",this.Roles);
-
-  //       }
-  //       else{
-
-  //       }
-  //     }   else{
-
-
-  //       //console.log("_body empty");
-  //      // this.notifier.notify('error','No Data Found!!!');
-  //     }
-
-  //   }
-  //   else
-  //   {
-  //    // console.log("error in FecthAllDepartments:","No Data Found!!!");
-  //     //this.notifier.notify('error','No Data Found!!!');
-  //   }
-  // }
   async CheckSaveGenericHeader(){
     this.generic_header_id=await this.header.CheckSaveGenericHeader(this.header_details['unit_id'],this.header_details['shift'],this.header_details['line'],this.user_id,
     this.header_details['type'],this.datePipe.transform(this.date,"yyyy-MM-dd")
     )
-if(this.generic_header_id){
-  this.notifier.notify( 'success', 'Header saved successfully' );
-              this.loading=false;
 
-}
-else{
-  this.notifier.notify( 'warning', 'Header Not saved ' );
-}
+    if(this.generic_header_id){
+      this.notifier.notify( 'success', 'Header saved successfully' );
+        this.loading=false;
+
+    }
+    else{
+      this.notifier.notify( 'warning', 'Header Not saved ' );
+    }
 
   }
-  // async CheckSaveGenericHeader(){
 
-  //   this.loading=true;
-
-
-  //      const url = 'http://'+this.someSharedService.ip+'/api/GenericHeader/FetchHeaderId';
-  //      let params={
-  //       unit_id:this.header_details['unit_id'],
-  //       shift:this.header_details['shift'],
-  //       line:this.header_details['line'],
-  //       user_id:this.user_id,
-  //       type:this.header_details['type'],
-  //       c_by:this.user_id,
-  //       date:this.datePipe.transform(this.date,"yyyy-MM-dd")
-  //      };
-
-  //      let response=await this.authenticationService.send_call(url,params);
-
-  //      if(response['data']){
-  //        if(response['data']['_body']){
-  //          if(response['data']['_body'].length>0)
-  //          {
-
-  //            const a=JSON.parse(response['data']['_body']);
-  //            this.generic_header_id=a['header_id'];
-  //           if(a['header_id']!=0){
-  //             this.notifier.notify( 'success', 'Header saved successfully' );
-  //             this.loading=false;
-  //            console.log("header_id", this.generic_header_id)
-  //           }
-  //           console.log("Role:",this.Roles);
-
-  //          }
-  //          else{
-  //            console.log("error: 0 records");
-  //           this.notifier.notify('error','No Data Found!!!');
-  //          }
-  //        }   else{
-  //          console.log("_body empty");
-  //         this.notifier.notify('error','No Data Found!!!');
-  //        }
-
-  //      }
-  //      else
-  //      {
-  //       console.log("error in FecthAllDepartments:","No Data Found!!!");
-  //        this.notifier.notify('error','No Data Found!!!');
-  //      }
-  //    }
-
-     async UpdatePacking(){
+ async UpdatePacking(){
       this.loading=true;
 
       const url = 'http://'+this.someSharedService.ip+'/api/ManagePacking/UpdateManagePacking';
